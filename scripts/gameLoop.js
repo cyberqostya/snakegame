@@ -1,22 +1,21 @@
-import Config from "./config.js";
-
 export default class GameLoop {
-  constructor( update, draw ) {
+  constructor(config, update, draw) {
+    this.config = config;
     this.update = update;
     this.draw = draw;
-
-    this.config = new Config();
-    this.animate();
+    this.gameLoopId;
   }
 
-  animate = () => {
-    requestAnimationFrame( this.animate );
-    if( ++this.config.step < this.config.maxStep ) {
-      return;
-    }
+  start = () => {
+    this.gameLoopId = requestAnimationFrame( this.start );
+
+    if( ++this.config.step < this.config.maxStep ) return;
     this.config.step = 0;
-  
     this.update();
     this.draw();
+  }
+
+  stop = () => {
+    cancelAnimationFrame(this.gameLoopId);
   }
 }

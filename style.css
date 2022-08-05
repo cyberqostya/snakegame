@@ -28,22 +28,48 @@ body {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 16px;
+	column-gap: 16px;
+	width: 320px;
 }
-.game-score {
-	padding: 10px 15px;
-	min-width: 160px;
-	height: 50px;
-	background: #98EE0C;
-	border-radius: 5px;
 
+.game-lvl {
+	width: 30%;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	align-items: flex-end;
+	font-size: 18px;
+	color: #0c6d45;
+	font-weight: 600;
+	line-height: 28px;
 }
+.game-lvl-count {
+	font-size: 28px;
+}
+.game-lvl-text {
+	margin-bottom: -3px;
+  margin-right: 8px;
+}
+
+.game-lifes {
+	display: flex;
+	column-gap: 4px;
+	width: 30%;
+	align-items: flex-end;
+}
+
+.game-life {
+	width: 30%;
+	height: fit-content;
+}
+
 .score-count{
 	font-size: 30px;
 	color: #0c6d45;
 	font-weight: bold;
+	background: #98EE0C;
+	padding: 10px 0;
+	width: 20%;
+	border-radius: 5px;
+	text-align: center;
 }
 
 .canvas-wrapper {
@@ -84,4 +110,43 @@ body {
 .mobile-control._down {
 	background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMjEiIHZpZXdCb3g9IjAgMCAxNiAyMSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNS4wNzE0IDE0LjM0MzFMOC43MDc0IDIwLjcwNzFDOC4zMTY4OCAyMS4wOTc2IDcuNjgzNzEgMjEuMDk3NiA3LjI5MzE5IDIwLjcwNzFMMC45MjkyMjkgMTQuMzQzMUMwLjUzODcwNCAxMy45NTI2IDAuNTM4NzA0IDEzLjMxOTUgMC45MjkyMjkgMTIuOTI4OUMxLjMxOTc1IDEyLjUzODQgMS45NTI5MiAxMi41Mzg0IDIuMzQzNDQgMTIuOTI4OUw3LjAwMDMgMTcuNTg1OEw3LjAwMDMgMEw5LjAwMDMgMFYxNy41ODU4TDEzLjY1NzIgMTIuOTI4OUMxNC4wNDc3IDEyLjUzODQgMTQuNjgwOCAxMi41Mzg0IDE1LjA3MTQgMTIuOTI4OUMxNS40NjE5IDEzLjMxOTUgMTUuNDYxOSAxMy45NTI2IDE1LjA3MTQgMTQuMzQzMVoiIGZpbGw9IiMwQzZENDUiLz4KPC9zdmc+Cg==);
 	grid-area: a4;
+}
+
+.menu-popup {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, .6);
+	padding: 24px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	box-sizing: border-box;
+	transition: all .3s;
+	
+	opacity: 0;
+	pointer-events: none;
+}
+
+.menu-popup__container {
+	border-radius: 16px;
+	background-color: #98EE0C;
+	padding: 32px 24px;
+
+}
+
+.menu-popup__text {
+	font-size: 25px;
+	color: #0c6d45;
+	font-weight: 600;
+	font-style: italic;
+	text-align: center;
+}
+
+.menu-popup__button {
+	max-width: 100px;
+	display: block;
+	margin: 48px auto 0;
 }

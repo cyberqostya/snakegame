@@ -1,20 +1,7 @@
-import Config from "./config.js";
-
 export default class Snake {
-  constructor(canvas) {
+  constructor(canvas, config) {
     this.canvas = canvas;
-    this.config = new Config();
-    this.x = 0;
-    this.y = 0;
-    this.tails = [];
-    this.maxTails = 3;
-    this.dx = this.config.sizeCell;
-    this.dy = 0;
-
-    this.control();
-  }
-
-  death() {
+    this.config = config;
     this.x = 0;
     this.y = 0;
     this.tails = [];
@@ -23,25 +10,16 @@ export default class Snake {
     this.dy = 0;
   }
 
-  control() {
-    document.querySelector('.mobile-controls').addEventListener("touchstart", (e) => {
-      if (e.target.closest('.mobile-control._left') && this.dx !== this.config.sizeCell) {
-        this.dx = -this.config.sizeCell;
-        this.dy = 0;
-      } else if (e.target.closest('.mobile-control._right') && this.dx !== -this.config.sizeCell) {
-        this.dx = this.config.sizeCell;
-        this.dy = 0;
-      } else if (e.target.closest('.mobile-control._up') && this.dy !== this.config.sizeCell) {
-        this.dx = 0;
-        this.dy = -this.config.sizeCell;
-      } else if (e.target.closest('.mobile-control._down') && this.dy !== -this.config.sizeCell) {
-        this.dx = 0;
-        this.dy = this.config.sizeCell;
-      }
-    });
+  reset() {
+    this.x = 0;
+    this.y = 0;
+    this.tails = [];
+    this.maxTails = 3;
+    this.dx = this.config.sizeCell;
+    this.dy = 0;
   }
 
-  _collisionBorder() {
+  checkBorder() {
     if(this.x < 0) {
       this.x = this.canvas.element.width - this.config.sizeCell;
     } else if(this.x >= this.canvas.element.width) {
@@ -55,38 +33,17 @@ export default class Snake {
     }
   }
 
-  update(berry, score) {
-    this.x += this.dx;
-    this.y += this.dy;
-  
-    // Столкновение со стеной
-    this._collisionBorder();
-  
-    this.tails.unshift( { x: this.x, y: this.y } );
-  
-    if( this.tails.length > this.maxTails ) {
-      this.tails.pop();
-    }
-
-    const head = this.tails[0];
-
-    // Столкновение головы змейки с хвостом
-    for (let i = 1; i < this.tails.length; i++) {
-      if(head.x === this.tails[i].x && head.y === this.tails[i].y) {
-        this.death();
-        score.setToZero();
-        berry.randomPosition();
-        return;
+  getCellsWithoutSnake() {
+    const result = [];
+    const snakeArr = this.tails;
+    const cellsArr = this.canvas.cells;
+    for( let i=0; i<cellsArr.length; i++ ) {
+      for( let j=0; j<snakeArr.length; j++) {
+        if( cellsArr[i].x===snakeArr[j].x || cellsArr[i].y===snakeArr[j].y ) break; 
+        else if(j+1===snakeArr.length) result.push(cellsArr[i]);
       }
     }
-
-    // Столкновение головы змейки с ягодой
-    if(head.x === berry.x && head.y === berry.y) {
-      this.maxTails++;
-      score.incScore();
-      berry.randomPosition();
-    }
-
+    return result;
   }
 
   draw() {
@@ -94,12 +51,12 @@ export default class Snake {
       if(index === 0) {
 
         // Окрашивается клетка головы змейки
-        this.canvas.context.fillStyle = '#fa0556';
+        this.canvas.context.fillStyle = '#7A7FF2';
 
       } else {
 
         // Окрашивается клетка хвоста змейки
-        this.canvas.context.fillStyle = '#a00034';
+        this.canvas.context.fillStyle = '#1920C1';
       }
       this.canvas.context.fillRect( i.x, i.y, this.config.sizeCell, this.config.sizeCell );
     });

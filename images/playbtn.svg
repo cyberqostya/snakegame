@@ -1,0 +1,16 @@
+<svg width="320" height="192" viewBox="0 0 320 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M32 16V8H288V16H304V32H312V160H304V176H288V184H32V176H16V160H8V32H16V16H32Z" fill="white"/>
+<rect width="256" height="8" transform="matrix(-1 0 0 1 288 0)" fill="black"/>
+<rect width="256" height="8" transform="matrix(-1 0 0 1 288 184)" fill="black"/>
+<rect width="8" height="128" transform="matrix(-1 0 0 1 8 32)" fill="black"/>
+<rect x="312" y="32" width="8" height="128" fill="black"/>
+<rect width="16" height="8" transform="matrix(-1 0 0 1 32 8)" fill="black"/>
+<rect x="288" y="8" width="16" height="8" fill="black"/>
+<rect x="32" y="184" width="16" height="8" transform="rotate(-180 32 184)" fill="black"/>
+<rect width="16" height="8" transform="matrix(1 0 0 -1 288 184)" fill="black"/>
+<rect width="8" height="16" transform="matrix(-1 0 0 1 16 16)" fill="black"/>
+<rect x="304" y="16" width="8" height="16" fill="black"/>
+<rect x="16" y="176" width="8" height="16" transform="rotate(-180 16 176)" fill="black"/>
+<rect width="8" height="16" transform="matrix(1 0 0 -1 304 176)" fill="black"/>
+<path d="M138 144V48H154.5V56H162.5V64H170.5V72H178.5V80H186.5V88H194.5V104H186.5V112H178.5V120H170.5V128H162.5V136H154.5V144H138Z" fill="#01AC4B"/>
+</svg>

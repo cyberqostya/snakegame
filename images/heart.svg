@@ -1,0 +1,43 @@
+<svg width="112" height="88" viewBox="0 0 112 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 32V16H24V8H40V16H48V24H64V16H72V8H96V16H104V40H96V48H88V56H80V64H72V72H56V64H48V56H40V48H32V40H24V32H16Z" fill="#FE0102"/>
+<rect y="16" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 112 16)" fill="black"/>
+<rect x="8" y="8" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 104 8)" fill="black"/>
+<rect x="16" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 96 0)" fill="black"/>
+<rect x="24" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 88 0)" fill="black"/>
+<rect x="32" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 80 0)" fill="black"/>
+<rect x="40" y="8" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 72 8)" fill="black"/>
+<rect x="48" y="16" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 64 16)" fill="black"/>
+<rect y="24" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 112 24)" fill="black"/>
+<rect y="32" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 112 32)" fill="black"/>
+<rect x="16" y="48" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 96 48)" fill="black"/>
+<rect x="32" y="64" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 80 64)" fill="black"/>
+<rect x="8" y="40" width="8" height="8" fill="black"/>
+<rect x="8" y="16" width="8" height="24" fill="#9B0001"/>
+<rect x="16" y="8" width="8" height="8" fill="#9B0001"/>
+<rect x="16" y="32" width="8" height="16" fill="#9B0001"/>
+<rect x="24" y="40" width="8" height="16" fill="#9B0001"/>
+<rect x="32" y="48" width="8" height="16" fill="#9B0001"/>
+<rect x="40" y="56" width="8" height="16" fill="#9B0001"/>
+<rect x="48" y="64" width="8" height="8" fill="#9B0001"/>
+<rect x="88" y="24" width="8" height="8" fill="white"/>
+<rect x="80" y="16" width="8" height="8" fill="white"/>
+<rect x="48" y="72" width="16" height="8" fill="#9B0001"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 104 40)" fill="black"/>
+<rect x="24" y="56" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 88 56)" fill="black"/>
+<rect x="40" y="72" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 72 72)" fill="black"/>
+<rect x="48" y="80" width="8" height="8" fill="black"/>
+<rect width="8" height="8" transform="matrix(-1 0 0 1 64 80)" fill="black"/>
+</svg>

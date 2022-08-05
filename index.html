@@ -5,22 +5,37 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./style.css">
-  <title>Змейка</title>
+  <link rel="icon" href="./images/favicon.png" type="image/png">
+  <title>snakegame</title>
 </head>
 <body>
 
   <div id="game">
     <div class="game-header">
-      <div class="game-score">
-        <span class="score-count"></span>
+      <div class="game-lvl"><span class="game-lvl-text">level</span> <span class="game-lvl-count"></span></div>
+      <div class="score-count"></div>
+      <div class="game-lifes">
+        <img class="game-life" src="./images/heart.svg" alt="life">
+        <img class="game-life" src="./images/heart.svg" alt="life">
+        <img class="game-life" src="./images/heart.svg" alt="life">
       </div>
     </div>
+
     <div class="canvas-wrapper"></div>
+
     <div class="mobile-controls">
       <div class="mobile-control _up"></div>
       <div class="mobile-control _left"></div>
       <div class="mobile-control _right"></div>
       <div class="mobile-control _down"></div>
+    </div>
+
+  </div>
+
+  <div class="menu-popup">
+    <div class="menu-popup__container">
+      <div class="menu-popup__text">Нажмите, чтобы начать</div>
+      <img src="./images/playbtn.svg" alt="play" class="menu-popup__button">
     </div>
   </div>
   
