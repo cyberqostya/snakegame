@@ -1,8 +1,9 @@
 export default class Score {
-  constructor() {
+  constructor(config) {
+    this.config = config;
     this.container = document.querySelector('.game-header');
     
-    this.score = 0;
+    this.score = config.levelPointsToWin;
     this.scoreBlock = this.container.querySelector('.score-count');
 
     this.level = 1;
@@ -13,13 +14,13 @@ export default class Score {
     this.lifesBlock = this.container.querySelectorAll('.game-life');
   }
 
-  incScore() {
-    this.score++;
+  decScore() {
+    this.score--;
     this.drawScore();
   }
 
-  setScoreToZero() {
-    this.score = 0;
+  setScoreToInitial() {
+    this.score = this.config.levelPointsToWin;
     this.drawScore();
   }
 
@@ -29,7 +30,7 @@ export default class Score {
       console.log('game over');
     }
     this.drawLifes();
-    this.setScoreToZero();
+    this.setScoreToInitial();
   }
 
   incLevel() {

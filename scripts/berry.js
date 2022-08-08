@@ -12,6 +12,11 @@ export default class Berry {
     this.y = array[randomIndex].y;
   }
 
+  reset() {
+    this.x = -this.config.sizeCell;
+    this.y = -this.config.sizeCell;
+  }
+
   draw() {
     const context = this.canvas.context;
     context.beginPath();

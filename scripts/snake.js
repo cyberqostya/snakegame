@@ -33,19 +33,6 @@ export default class Snake {
     }
   }
 
-  getCellsWithoutSnake() {
-    const result = [];
-    const snakeArr = this.tails;
-    const cellsArr = this.canvas.cells;
-    for( let i=0; i<cellsArr.length; i++ ) {
-      for( let j=0; j<snakeArr.length; j++) {
-        if( cellsArr[i].x===snakeArr[j].x || cellsArr[i].y===snakeArr[j].y ) break; 
-        else if(j+1===snakeArr.length) result.push(cellsArr[i]);
-      }
-    }
-    return result;
-  }
-
   draw() {
     this.tails.forEach((i, index) => {
       if(index === 0) {

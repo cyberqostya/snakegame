@@ -144,6 +144,9 @@ body {
 	font-style: italic;
 	text-align: center;
 }
+.menu-popup__text p {
+	margin: 12px 0;
+}
 
 .menu-popup__button {
 	max-width: 100px;
