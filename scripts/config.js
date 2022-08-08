@@ -4,21 +4,21 @@ export default class Config {
     this.maxStep = 6;
     this.sizeCell = 16;
     this.sizeBerry = this.sizeCell / 4;
-    this.levelPointsToWin = 1;
+    this.levelPointsToWin = 30;
     this.levelModification = [];
 
     this.levels = [
       {
         modifications: 'isRandomSnakeSpeed',
-        levelPointsToWin: 8
+        levelPointsToWin: 30
       },
       {
         modifications: 'isBerryChangedObstacle',
-        levelPointsToWin: 8
+        levelPointsToWin: 30
       },
       {
         modifications: ['isBerryChangedObstacle', 'isBorderDanger'],
-        levelPointsToWin: 3
+        levelPointsToWin: 30
       },
       {
         isArrowsInvert: true,
