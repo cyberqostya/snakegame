@@ -2,8 +2,8 @@ export default class Snake {
   constructor(canvas, config) {
     this.canvas = canvas;
     this.config = config;
-    this.x = 0;
-    this.y = 0;
+    this.x = this.config.startSnakePosition.x;
+    this.y = this.config.startSnakePosition.y;
     this.tails = [];
     this.maxTails = 3;
     this.dx = this.config.sizeCell;
@@ -11,8 +11,8 @@ export default class Snake {
   }
 
   reset() {
-    this.x = 0;
-    this.y = 0;
+    this.x = this.config.startSnakePosition.x;
+    this.y = this.config.startSnakePosition.y;
     this.tails = [];
     this.maxTails = 3;
     this.dx = this.config.sizeCell;

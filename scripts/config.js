@@ -2,44 +2,52 @@ export default class Config {
   constructor() {
     this.step = 0;
     this.maxStep = 6;
+    this.cellsX = 19;
+    this.cellsY = 19;
     this.sizeCell = 16;
     this.sizeBerry = this.sizeCell / 4;
-    this.levelPointsToWin = 30;
+    this.levelPointsToWin = 10; // 30
     this.levelModification = [];
+    this.startSnakePosition = { x: (this.cellsX - 4) * this.sizeCell, y: this.sizeCell * 2 };
 
     this.levels = [
       {
-        modifications: 'isRandomSnakeSpeed',
-        levelPointsToWin: 30
+        modifications: ['isRandomSnakeSpeed'],
+        levelPointsToWin: 10, // 25
       },
       {
-        modifications: 'isBerryChangedObstacle',
-        levelPointsToWin: 30
+        modifications: ['isBerryChangedObstacle'],
+        levelPointsToWin: 10, // 30
+        startSnakePosition: { x: this.sizeCell * 2, y: this.sizeCell * 2 },
       },
       {
-        modifications: ['isBerryChangedObstacle', 'isBorderDanger'],
-        levelPointsToWin: 30
+        modifications: ['isBorderDanger'],
+        levelPointsToWin: 10,
+        startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX / 2) * this.sizeCell },
       },
       {
-        isArrowsInvert: true,
+        modifications: ['isBorderDanger', 'isArrowsInvert'],
+        levelPointsToWin: 1,
+        startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX / 2) * this.sizeCell },
+        speed: 7,
       },
       {
-        isFireBalls: true,
+        modifications: ['doubleLength', 'isBorderDanger'],
+        levelPointsToWin: 6,
+        startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX - 2) * this.sizeCell },
       },
       {
-        isLessSpace: true,
+        modifications: ['plusBorder'],
+        levelPointsToWin: 10,
+        startSnakePosition: { x: 0, y: this.cellsX * this.sizeCell },
       },
       {
-        isBorderMadeThin: true,
+        modifications: ['berryTimer'],
+        levelPointsToWin: 10,
       },
       {
-        isBerryX2: true,
-      },
-      {
-        isDeadBerryAround: true,
-      },
-      {
-        isBerryAppearTimer: true,
+        modifications: ['isBeeAround'],
+        levelPointsToWin: 8,
       },
     ];
   }
@@ -48,6 +56,8 @@ export default class Config {
     const levelMods = this.levels[level-2];
     this.levelModification = levelMods.modifications;
     this.levelPointsToWin = levelMods.levelPointsToWin;
+    this.startSnakePosition = levelMods.startSnakePosition || { x: (this.cellsX - 2) * this.sizeCell, y: this.sizeCell * 2 };
+    this.maxStep = levelMods.speed || 6;
   }
 
   setSpeed(speed) {

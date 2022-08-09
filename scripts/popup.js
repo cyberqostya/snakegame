@@ -35,6 +35,10 @@ export default class Popup {
       reasonSentence = 'Наверное не стоило кусать себя за хвост, не так ли?';
     } else if(reason === 'obstacle') {
       reasonSentence = 'А тебе разве не говорили не есть всякие коричневые квадратные штуковины?';
+    } else if(reason === 'border') {
+      reasonSentence = 'Кажется, что кто-то построил стены вокруг карты';
+    } else if(reason === 'berries') {
+      reasonSentence = 'То, чем питалась твоя змея, размножилось и убило её. Вот такая вот эволюционная цепочка';
     }
 
     this.changeText(`

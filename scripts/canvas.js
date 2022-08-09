@@ -1,12 +1,10 @@
-import Config from "./config.js";
-
 export default class Canvas {
-  constructor() {
-    this.config = new Config();
+  constructor(config) {
+    this.config = config;
     this.element = document.createElement( 'canvas' );
     this.context = this.element.getContext( '2d' );
-    this.element.width = 304;
-    this.element.height = 304;
+    this.element.width = this.config.cellsX * this.config.sizeCell;
+    this.element.height = this.config.cellsY * this.config.sizeCell;
     this.cells = [];
     document.querySelector('.canvas-wrapper').append(this.element);
 
@@ -14,13 +12,10 @@ export default class Canvas {
   }
 
   _fillCells() {
-    const cellsXQuantity = this.element.width / this.config.sizeCell;
-    const cellsYQuantity = this.element.height / this.config.sizeCell;
-    for(let i = 0; i < cellsYQuantity; i++) {
-      for(let j = 0; j < cellsXQuantity; j++) {
+    for(let i = 0; i < this.config.cellsY; i++) {
+      for(let j = 0; j < this.config.cellsX; j++) {
         this.cells.push({ x: j * this.config.sizeCell, y: i * this.config.sizeCell });
       }
     }
-    ;
   }
 }

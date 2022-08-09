@@ -26,9 +26,6 @@ export default class Score {
 
   decLife() {
     this.lifes--;
-    if( this.lifes === 0 ) {
-      console.log('game over');
-    }
     this.drawLifes();
     this.setScoreToInitial();
   }

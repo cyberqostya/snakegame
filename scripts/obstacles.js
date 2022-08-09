@@ -9,6 +9,10 @@ export default class Obstacles {
     this.img.src = 'images/obstacle.svg';
   }
 
+  addObstacles(array) {
+    this.obstacles = array;
+  }
+
   update(coords) {
     this.x = coords.x;
     this.y = coords.y;
