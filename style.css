@@ -1,11 +1,11 @@
 body {
 	margin: 0px;
 	font-family: sans-serif;
+	background-color: rgba(27, 156, 59, 0.486);
 }
 
 
 #game {
-	background: rgba(27, 156, 59, 0.486);
 	width: 100vw;
 	height: 100vh;
 
@@ -60,7 +60,6 @@ body {
 
 .game-life {
 	width: 30%;
-	height: fit-content;
 }
 
 .score-count{
