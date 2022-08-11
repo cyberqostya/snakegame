@@ -144,7 +144,7 @@ function updateAll() {
       // Модификация уровня
       // Увеличение скорости змейки рандомно
       if(config.levelModification.includes('isRandomSnakeSpeed')) {
-        const speeds = [2, 10, 27];
+        const speeds = [3, 6, 30];
         const index = Math.round(Math.random() * 2);
         config.setSpeed( speeds[index] );
       }
@@ -254,7 +254,7 @@ function appearTimerBerry() {
       let arrayForBerry = findUniquesCoordObjectsFromArrays(canvas.cells, snake.tails.concat(berry.berries));
       berry.addOnRandomPosition( arrayForBerry );
       isTimerBerryAppear = true;
-    }, 800);
+    }, 1300);
   }
 }
 // Конец модификации
@@ -296,6 +296,12 @@ function loseLife(reason) {
 }
 
 
+function checkHorizontalMoving() {
+  return snake.dx === 0 && snake.tails[0].y !== snake.tails[1].y ? true : false;
+}
+function checkVerticalMoving() {
+  return snake.dy === 0 && snake.tails[0].x !== snake.tails[1].x ? true : false;
+}
 
 
 // Начало работы
@@ -335,31 +341,31 @@ document.querySelector('.mobile-controls').addEventListener("touchstart", (e) =>
   // Модификация уровня
   // Инвертированные стрелки
   if(config.levelModification.includes('isArrowsInvert')) {
-    if (e.target.closest('.mobile-control._left') && snake.tails[1].x - snake.tails[0].x !== config.sizeCell) {
+    if (e.target.closest('.mobile-control._left') && checkHorizontalMoving()) {
       snake.dx = config.sizeCell;
       snake.dy = 0;
-    } else if (e.target.closest('.mobile-control._right') && snake.tails[0].x - snake.tails[1].x !== config.sizeCell) {
+    } else if (e.target.closest('.mobile-control._right') && checkHorizontalMoving()) {
       snake.dx = -config.sizeCell;
       snake.dy = 0;
-    } else if (e.target.closest('.mobile-control._up') && snake.tails[0].y - snake.tails[1].y !== config.sizeCell) {
+    } else if (e.target.closest('.mobile-control._up') && checkVerticalMoving()) {
       snake.dy = config.sizeCell;
       snake.dx = 0;
-    } else if (e.target.closest('.mobile-control._down') && snake.tails[1].y - snake.tails[0].y !== config.sizeCell) {
+    } else if (e.target.closest('.mobile-control._down') && checkVerticalMoving()) {
       snake.dy = -config.sizeCell;
       snake.dx = 0;
     }
     // Конец модификации
   } else {
-    if (e.target.closest('.mobile-control._left') && snake.tails[0].x - snake.tails[1].x !== config.sizeCell) {
+    if (e.target.closest('.mobile-control._left') && checkHorizontalMoving()) {
       snake.dx = -config.sizeCell;
       snake.dy = 0;
-    } else if (e.target.closest('.mobile-control._right') && snake.tails[1].x - snake.tails[0].x !== config.sizeCell) {
+    } else if (e.target.closest('.mobile-control._right') && checkHorizontalMoving()) {
       snake.dx = config.sizeCell;
       snake.dy = 0;
-    } else if (e.target.closest('.mobile-control._up') && snake.tails[1].y - snake.tails[0].y !== config.sizeCell) {
+    } else if (e.target.closest('.mobile-control._up') && checkVerticalMoving()) {
       snake.dy = -config.sizeCell;
       snake.dx = 0;
-    } else if (e.target.closest('.mobile-control._down') && snake.tails[0].y - snake.tails[1].y !== config.sizeCell) {
+    } else if (e.target.closest('.mobile-control._down') && checkVerticalMoving()) {
       snake.dy = config.sizeCell;
       snake.dx = 0;
     }
@@ -387,36 +393,38 @@ popup.show();
 // DELETE
 // DELETE
 // DELETE
-document.addEventListener("keydown", (e) => {
+
+document.addEventListener("keydown", async (e) => {
 
   // Модификация уровня
   // Инвертированные стрелки
+
   if(config.levelModification.includes('isArrowsInvert')) {
-    if (e.key === 'ArrowLeft' && snake.tails[1].x - snake.tails[0].x !== config.sizeCell) {
+    if (e.key === 'ArrowLeft' && checkHorizontalMoving()) {
       snake.dx = config.sizeCell;
       snake.dy = 0;
-    } else if (e.key === 'ArrowRight' && snake.tails[0].x - snake.tails[1].x !== config.sizeCell) {
+    } else if (e.key === 'ArrowRight' && checkHorizontalMoving()) {
       snake.dx = -config.sizeCell;
       snake.dy = 0;
-    } else if (e.key === 'ArrowUp' && snake.tails[0].y - snake.tails[1].y !== config.sizeCell) {
+    } else if (e.key === 'ArrowUp' && checkVerticalMoving()) {
       snake.dy = config.sizeCell;
       snake.dx = 0;
-    } else if (e.key === 'ArrowDown' && snake.tails[1].y - snake.tails[0].y !== config.sizeCell) {
+    } else if (e.key === 'ArrowDown' && checkVerticalMoving()) {
       snake.dy = -config.sizeCell;
       snake.dx = 0;
     }
     // Конец модификации
   } else {
-    if (e.key === 'ArrowLeft' && snake.tails[0].x - snake.tails[1].x !== config.sizeCell) {
+    if (e.key === 'ArrowLeft' && checkHorizontalMoving()) {
       snake.dx = -config.sizeCell;
       snake.dy = 0;
-    } else if (e.key === 'ArrowRight' && snake.tails[1].x - snake.tails[0].x !== config.sizeCell) {
+    } else if (e.key === 'ArrowRight' && checkHorizontalMoving()) {
       snake.dx = config.sizeCell;
       snake.dy = 0;
-    } else if (e.key === 'ArrowUp' && snake.tails[1].y - snake.tails[0].y !== config.sizeCell) {
+    } else if (e.key === 'ArrowUp' && checkVerticalMoving()) {
       snake.dy = -config.sizeCell;
       snake.dx = 0;
-    } else if (e.key === 'ArrowDown' && snake.tails[0].y - snake.tails[1].y !== config.sizeCell) {
+    } else if (e.key === 'ArrowDown' && checkVerticalMoving()) {
       snake.dy = config.sizeCell;
       snake.dx = 0;
     }
