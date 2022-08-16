@@ -27,6 +27,7 @@ const loseLifeReasons = {
   obstacle: 'obstacle',
   border: 'border',
   berries: 'berries',
+  bee: 'bee',
 }
 
 
@@ -48,9 +49,17 @@ function updateAll() {
   // Появление ягод по таймеру
   if(config.levelModification.includes('berryTimer')) {
     appearTimerBerry();
-    if(berry.berries.length > 5) {
+    if(berry.berries.length > 6) {
       return loseLife(loseLifeReasons.berries);
     }
+  }
+  // Конец модификации
+
+
+  // Модификация уровня
+  // Тип ягод
+  if(config.levelModification.includes('berryType')) {
+    appearTimerBerry();
   }
   // Конец модификации
 
@@ -59,6 +68,7 @@ function updateAll() {
   // Границы бьют
   if(config.levelModification.includes('isBorderDanger')) {
 
+    // Столкновение головы змеи с границей
     if(snake.x < 0 || snake.x >= canvas.element.width || snake.y < 0 || snake.y >= canvas.element.height) {
       return loseLife(loseLifeReasons.border);
     }
@@ -107,7 +117,20 @@ function updateAll() {
   for (let i = 0; i < berry.berries.length; i++) {
     if(head.x === berry.berries[i].x && head.y === berry.berries[i].y) {
       
-      score.decScore();
+
+      // Модификация уровня
+      // Тип ягод
+      if(!config.levelModification.includes('berryType')) {
+        score.decScore();
+      } else {
+        if(berry.berries[i].type === 'banana') score.plus(4);
+        else if(berry.berries[i].type === 'melon') score.minus(4);
+        else if(berry.berries[i].type === 'apricot') score.mult(2);
+        else if(berry.berries[i].type === 'grape') score.div(2);
+        else if(berry.berries[i].type === 'straw') score.sign();
+      }
+      // Конец модификации
+
       
       // Проверка прошел ли игрок уровень
       if(score.score === 0) {
@@ -121,6 +144,14 @@ function updateAll() {
         // Появление препятствия вместо ягоды ИИ Граница в форме +
         if(config.levelModification.includes('isBerryChangedObstacle') || config.levelModification.includes('plusBorder')) {
           obstacles.reset();
+        }
+        // Конец модификации
+
+
+        // Модификация уровня
+        // Пчела
+        if(config.levelModification.includes('isBeeAround')) {
+          bee.reset();
         }
         // Конец модификации
 
@@ -144,7 +175,7 @@ function updateAll() {
       // Модификация уровня
       // Увеличение скорости змейки рандомно
       if(config.levelModification.includes('isRandomSnakeSpeed')) {
-        const speeds = [3, 6, 30];
+        const speeds = [2, 5, 30];
         const index = Math.round(Math.random() * 2);
         config.setSpeed( speeds[index] );
       }
@@ -165,9 +196,17 @@ function updateAll() {
 
 
       // Модификация уровня
-      // Появление ягод по таймеру
-      if(!config.levelModification.includes('berryTimer')) {
+      // Появление ягод по таймеру ИИ Тип ягод
+      if(!config.levelModification.includes('berryTimer') || !config.levelModification.includes('berryType')) {
         addBerry();
+      }
+      // Конец модификации
+
+
+      // Модификация уровня
+      // Пчела
+      if(config.levelModification.includes('isBeeAround')) {
+        bee.getPath(berry.berries[0]);
       }
       // Конец модификации
     }
@@ -184,6 +223,20 @@ function updateAll() {
         return;
       }
       
+    }
+  }
+  // Конец модификации
+
+
+  // Модификация уровня
+  // Пчела
+  // Столкновение змеи с пчелой
+  if(config.levelModification.includes('isBeeAround')) {
+    for (let i=0; i<snake.tails.length; i++) {
+      if(snake.tails[i].x === bee.x && snake.tails[i].y === bee.y) {
+        loseLife(loseLifeReasons.bee);
+        return;
+      }
     }
   }
   // Конец модификации
@@ -254,7 +307,7 @@ function appearTimerBerry() {
       let arrayForBerry = findUniquesCoordObjectsFromArrays(canvas.cells, snake.tails.concat(berry.berries));
       berry.addOnRandomPosition( arrayForBerry );
       isTimerBerryAppear = true;
-    }, 1300);
+    }, 700);
   }
 }
 // Конец модификации
@@ -288,11 +341,19 @@ function loseLife(reason) {
 
 
   // Модификация уровня
-  // Появление ягод по таймеру
-  if(config.levelModification.includes('berryTimer')) {
+  // Появление ягод по таймеру ИИ типы ягод
+  if(config.levelModification.includes('berryTimer') || config.levelModification.includes('berryType')) {
     isTimerBerryAppear = true;
   }
   // Конец модификации
+
+
+  // Модифика[ция уровня
+  // Пчела
+  if(config.levelModification.includes('isBeeAround')) {
+    bee.reset();
+  }
+  // Конец модификации]
 }
 
 
@@ -306,10 +367,6 @@ function checkVerticalMoving() {
 
 // Начало работы
 
-
-
-// Отключение зума при двойном тапе?
-window.addEventListener('dblclick', (e) => { e.preventDefault() });
 
 
 

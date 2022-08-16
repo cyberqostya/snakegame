@@ -58,10 +58,6 @@ body {
 	align-items: flex-end;
 }
 
-.game-life {
-	width: 30%;
-}
-
 .score-count{
 	font-size: 30px;
 	color: #0c6d45;
@@ -155,4 +151,11 @@ body {
 	max-width: 100px;
 	display: block;
 	margin: 48px auto 0;
+	transition: .5s 1s;
+	opacity: 0;
+	pointer-events: none;
+}
+.menu-popup__button._active {
+	opacity: 1;
+	pointer-events: all;
 }

@@ -22,11 +22,11 @@ export default class Berry {
     this.x = array[randomIndex].x;
     this.y = array[randomIndex].y;
 
-    const [src, width, height] = this._getBerryImage();
+    const [src, width, height, type] = this._getBerryImage();
     const image = new Image();
     image.src = src;
 
-    this.berries.push({ x: this.x, y: this.y, image, width, height });
+    this.berries.push({ x: this.x, y: this.y, image, width, height, type });
   }
 
   reset() {
@@ -49,6 +49,7 @@ export default class Berry {
         originalHeight: 96,
         newWidth: 9,
         newHeight: 12,
+        type: 'straw',
       },
       {
         src: 'images/berry2.svg',
@@ -56,10 +57,35 @@ export default class Berry {
         originalHeight: 72,
         newWidth: 13,
         newHeight: 9,
+        type: 'banana',
+      },
+      {
+        src: 'images/berry3.svg',
+        originalWidth: 72,
+        originalHeight: 96,
+        newWidth: 9,
+        newHeight: 12,
+        type: 'grape',
+      },
+      {
+        src: 'images/berry4.svg',
+        originalWidth: 104,
+        originalHeight: 64,
+        newWidth: 13,
+        newHeight: 8,
+        type: 'melon',
+      },
+      {
+        src: 'images/berry5.svg',
+        originalWidth: 72,
+        originalHeight: 112,
+        newWidth: 9,
+        newHeight: 14,
+        type: 'apricot',
       },
     ];
 
     const index = Math.floor(Math.random() * images.length);
-    return [images[index].src, images[index].newWidth, images[index].newHeight];
+    return [images[index].src, images[index].newWidth, images[index].newHeight, images[index].type];
   }
 }

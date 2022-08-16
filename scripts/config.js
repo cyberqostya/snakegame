@@ -6,45 +6,51 @@ export default class Config {
     this.cellsY = 19;
     this.sizeCell = 16;
     this.sizeBerry = this.sizeCell / 4;
-    this.levelPointsToWin = 15;
+    this.levelPointsToWin = 1;
     this.levelModification = [];
     this.startSnakePosition = { x: (this.cellsX - 6) * this.sizeCell, y: this.sizeCell * 2 };
 
     this.levels = [
+      // {
+      //   modifications: ['isRandomSnakeSpeed'],
+      //   levelPointsToWin: 23,
+      // },
+      // {
+      //   modifications: ['isBerryChangedObstacle'],
+      //   levelPointsToWin: 16,
+      // },
+      // {
+      //   modifications: ['isBorderDanger'],
+      //   levelPointsToWin: 20,
+      //   startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX / 2) * this.sizeCell },
+      // },
+      // {
+      //   modifications: ['isBorderDanger', 'isArrowsInvert'],
+      //   levelPointsToWin: 5,
+      //   startSnakePosition: { x: this.sizeCell, y: Math.floor(this.cellsX / 2) * this.sizeCell },
+      // },
+      // {
+      //   modifications: ['doubleLength', 'isBorderDanger'],
+      //   levelPointsToWin: 7,
+      //   startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX - 2) * this.sizeCell },
+      // },
+      // {
+      //   modifications: ['plusBorder'],
+      //   levelPointsToWin: 10,
+      // },
+      // {
+      //   modifications: ['berryTimer', 'isBorderDanger'],
+      //   levelPointsToWin: 20,
+      // },
+      // можно есть только бананчики
+      // {
+      //   modifications: ['isBeeAround'],
+      //   levelPointsToWin: 15,
+      // },
       {
-        modifications: ['isRandomSnakeSpeed'],
-        levelPointsToWin: 15,
-      },
-      {
-        modifications: ['isBerryChangedObstacle'],
-        levelPointsToWin: 12,
-      },
-      {
-        modifications: ['isBorderDanger'],
-        levelPointsToWin: 12,
+        modifications: ['berryType', 'isBorderDanger'],
+        levelPointsToWin: 100,
         startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX / 2) * this.sizeCell },
-      },
-      {
-        modifications: ['isBorderDanger', 'isArrowsInvert'],
-        levelPointsToWin: 1,
-        startSnakePosition: { x: this.sizeCell, y: Math.floor(this.cellsX / 2) * this.sizeCell },
-      },
-      {
-        modifications: ['doubleLength', 'isBorderDanger'],
-        levelPointsToWin: 7,
-        startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX - 2) * this.sizeCell },
-      },
-      {
-        modifications: ['plusBorder'],
-        levelPointsToWin: 10,
-      },
-      {
-        modifications: ['berryTimer'],
-        levelPointsToWin: 10,
-      },
-      {
-        modifications: ['isBeeAround'],
-        levelPointsToWin: 8,
       },
     ];
   }

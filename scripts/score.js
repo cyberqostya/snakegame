@@ -11,7 +11,9 @@ export default class Score {
 
     this.maxLifes = 3;
     this.lifes = this.maxLifes;
-    this.lifesBlock = this.container.querySelectorAll('.game-life');
+    this.lifesContainer = this.container.querySelector('.game-lifes');
+
+    this.drawLifes();
   }
 
   decScore() {
@@ -24,10 +26,41 @@ export default class Score {
     this.drawScore();
   }
 
+  plus(num) {
+    this.score += num;
+    this.drawScore();
+  }
+  minus(num) {
+    this.score -= num;
+    this.drawScore();
+  }
+  mult(num) {
+    this.score *= num;
+    this.drawScore();
+  }
+  div(num) {
+    this.score = Math.floor(this.score / num);
+    this.drawScore();
+  }
+  sign() {
+    this.score = -this.score;
+    this.drawScore();
+  }
+
   decLife() {
     this.lifes--;
     this.drawLifes();
     this.setScoreToInitial();
+  }
+
+  incLife() {
+    if(this.lifes !== this.maxLifes) {
+      this.lifes++;
+    } else {
+      this.maxLifes++;
+      this.lifes++;
+    }
+    this.drawLifes();
   }
 
   incLevel() {
@@ -45,7 +78,16 @@ export default class Score {
   }
 
   drawLifes() {
-    Array.from(this.lifesBlock)[this.maxLifes - this.lifes - 1].setAttribute('src', './images/heartless.svg');
+    this.lifesContainer.innerHTML = '';
+    for(let i=0; i<this.maxLifes; i++) {
+      let src = '';
+      if(i+1 <= this.lifes) {
+        src = "./images/heart.svg";
+      } else {
+        src = "./images/heartless.svg";
+      }
+      this.lifesContainer.insertAdjacentHTML('beforeend', `<img class="game-life" alt="life" src="${src}" style="width:calc((100% - 4px * ${this.maxLifes - 1}) / ${this.maxLifes})">`);
+    }
   }
 
   drawScore() {

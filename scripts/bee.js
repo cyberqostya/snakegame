@@ -6,7 +6,6 @@ export default class Bee {
     this.y = -this.config.sizeCell;
     this.image = new Image();
     this.image.src = 'images/bee.svg';
-    this.berry = {};
     this.path = [];
     this.pathCounter = 0;
   }
@@ -31,6 +30,13 @@ export default class Bee {
     if(++this.pathCounter === this.path.length) this.pathCounter = 0;
     this.x = this.path[this.pathCounter].x;
     this.y = this.path[this.pathCounter].y;
+  }
+
+  reset() {
+    this.path = [];
+    this.x = -this.config.sizeCell;
+    this.y = -this.config.sizeCell;
+    this.pathCounter = 0;
   }
 
   draw() {

@@ -39,6 +39,8 @@ export default class Popup {
       reasonSentence = 'Кажется, что кто-то построил стены вокруг карты';
     } else if(reason === 'berries') {
       reasonSentence = 'То, чем питалась твоя змея, размножилось и убило её. Вот такая вот эволюционная цепочка';
+    } else if(reason === 'bee') {
+      reasonSentence = 'Ужалила...';
     }
 
     this.changeText(`
@@ -56,10 +58,12 @@ export default class Popup {
   show() {
     this.element.style.pointerEvents = 'all';
     this.element.style.opacity = '1';
+    this.button.classList.add('_active');
   }
 
   hide() {
     this.element.style.pointerEvents = 'none';
     this.element.style.opacity = '0';
+    this.button.classList.remove('_active');
   }
 }
