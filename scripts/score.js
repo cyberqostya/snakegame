@@ -12,8 +12,6 @@ export default class Score {
     this.maxLifes = 3;
     this.lifes = this.maxLifes;
     this.lifesContainer = this.container.querySelector('.game-lifes');
-
-    this.drawLifes();
   }
 
   decScore() {

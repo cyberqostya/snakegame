@@ -6,8 +6,9 @@ import Berry from "./berry.js";
 import Popup from "./popup.js";
 import Config from "./config.js";
 import Obstacles from "./obstacles.js";
-import { findUniquesCoordObjectsFromArrays } from './supportFunctions.js';
+import { findUniquesCoordObjectsFromArrays, getReadableDate, getUniqueKey } from './supportFunctions.js';
 import Bee from "./bee.js";
+import Watcher from "./watcher.js";
 
 const config = new Config();
 const canvas = new Canvas(config);
@@ -18,6 +19,7 @@ const popup = new Popup();
 const score = new Score(config);
 const obstacles = new Obstacles(canvas, config);
 const bee = new Bee(canvas, config);
+const watcher = new Watcher( JSON.parse(localStorage.getItem('player')) );
 
 
 // Объявление необходимых для работы игры переменных
@@ -49,7 +51,7 @@ function updateAll() {
   // Появление ягод по таймеру
   if(config.levelModification.includes('berryTimer')) {
     appearTimerBerry();
-    if(berry.berries.length > 6) {
+    if(berry.berries.length > 7) {
       return loseLife(loseLifeReasons.berries);
     }
   }
@@ -318,6 +320,7 @@ function loseLife(reason) {
   score.decLife();
   snake.reset();
   berry.reset();
+  watcher.incDeaths();
   if(score.lifes === 0) {
     return popup.gameover();
   }
@@ -348,12 +351,12 @@ function loseLife(reason) {
   // Конец модификации
 
 
-  // Модифика[ция уровня
+  // Модификация уровня
   // Пчела
   if(config.levelModification.includes('isBeeAround')) {
     bee.reset();
   }
-  // Конец модификации]
+  // Конец модификации
 }
 
 
@@ -368,8 +371,6 @@ function checkVerticalMoving() {
 // Начало работы
 
 
-
-
 // Обработчик на кнопку формы - начало игры / конец игры
 popup.button.addEventListener('touchstart', () => {
   if(score.lifes === 0) {
@@ -378,6 +379,8 @@ popup.button.addEventListener('touchstart', () => {
     popup.hide();
     gameLoop.start();
     berry.addOnRandomPosition(canvas.cells);
+
+    if(score.level === 1) watcher.incTry();
 
 
     // Модификация уровня
@@ -389,7 +392,6 @@ popup.button.addEventListener('touchstart', () => {
 
   }
 });
-
 
 
 // Обработчик на кнопки управления змейкой
@@ -435,11 +437,24 @@ document.querySelector('.mobile-controls').addEventListener("touchstart", (e) =>
 // Отрисовали начальные данные
 score.drawLevel();
 score.drawScore();
-
+score.drawLifes();
 
 
 // Показали попап для начала игры
-popup.show();
+if(watcher.storage.getItem('player')) {
+  popup.start();
+} else {
+  popup.enter1();
+  document.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      watcher.setDate( getReadableDate() );
+      watcher.setName( e.currentTarget.elements.name.value + `-${getUniqueKey(e.currentTarget.elements.name.value)}` );
+      watcher.saveData();
+      popup.hide();
+      popup.enter2();
+  });
+}
+
 
 
 

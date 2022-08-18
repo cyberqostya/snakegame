@@ -50,20 +50,56 @@ export default class Popup {
     this.show();
   }
 
-  gameover() {
-    this.changeText(`GAME OVER`);
+  enter1() {
+    this.changeText(`
+      <p>Приветствую тебя на игре «Змейка за пятьсот»!</p>
+      <p>Введи имя, чтобы начать игру:</p>
+      <form>
+        <input type="text" name="name" required minlength="2" />
+        <button>ОК</button>
+      </form>
+      <p style="font-size:12px">*для получения приза важно, чтобы имя совпадало с реальным</p>
+    `);
+    this.show(false);
+  }
+  enter2() {
+    this.changeText(`
+      <p>Спасибо, \${name}.</p>
+      <p>Желаю приятной игры!</p>
+    `);
     this.show();
   }
 
-  show() {
+
+  start() {
+    this.changeText(`
+      <p>Ну что, начнём игру, name?</p>
+    `);
+    this.show();
+  }
+
+
+  gameover() {// Цитата про безумие исходя из количества попыток
+    this.changeText(`
+      Вот и всё, ребята!
+    `);
+    this.show();
+  }
+
+  show(withBtn = true) {
     this.element.style.pointerEvents = 'all';
     this.element.style.opacity = '1';
-    this.button.classList.add('_active');
+    if(withBtn) {
+      this.button.style.display = 'block';
+      setTimeout(()=>{ this.button.classList.add('_active') },50);
+    }
   }
 
   hide() {
     this.element.style.pointerEvents = 'none';
     this.element.style.opacity = '0';
     this.button.classList.remove('_active');
+    this.button.style.display = 'none';
+
   }
 }

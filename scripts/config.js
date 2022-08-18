@@ -12,7 +12,7 @@ export default class Config {
 
     this.levels = [
       {
-        modifications: ['isRandomSnakeSpeed'],
+        modifications: ['isRandomSnakeSpeed' ,'isBorderDanger'],
         levelPointsToWin: 23,
       },
       {
