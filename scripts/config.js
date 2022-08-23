@@ -6,51 +6,51 @@ export default class Config {
     this.cellsY = 19;
     this.sizeCell = 16;
     this.sizeBerry = this.sizeCell / 4;
-    this.levelPointsToWin = 1;
+    this.levelPointsToWin = 25;
     this.levelModification = [];
     this.startSnakePosition = { x: (this.cellsX - 6) * this.sizeCell, y: this.sizeCell * 2 };
 
     this.levels = [
       {
         modifications: ['isRandomSnakeSpeed'],
-        levelPointsToWin: 1, //24
+        levelPointsToWin: 24, //24
         speed: 5,
       },
       {
         modifications: ['isBerryChangedObstacle'],
-        levelPointsToWin: 1, //20
+        levelPointsToWin: 20, //20
       },
       {
         modifications: ['isBorderDanger'],
-        levelPointsToWin: 1, //25
+        levelPointsToWin: 25, //25
         startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX / 2) * this.sizeCell },
       },
       {
         modifications: ['isBorderDanger', 'isArrowsInvert'],
-        levelPointsToWin: 1, //7
+        levelPointsToWin: 7, //7
         startSnakePosition: { x: this.sizeCell, y: Math.floor(this.cellsX / 2) * this.sizeCell },
       },
       {
         modifications: ['doubleLength', 'isBorderDanger'],
-        levelPointsToWin: 1,//7
+        levelPointsToWin: 7,//7
         startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX - 2) * this.sizeCell },
       },
       {
         modifications: ['plusBorder'],
-        levelPointsToWin: 1, //12
+        levelPointsToWin: 12, //12
       },
       {
         modifications: ['berryTimer', 'isBorderDanger'],
-        levelPointsToWin: 1, //20
+        levelPointsToWin: 20, //20
         speed: 6,
       },
       {
         modifications: ['isBeeAround'],
-        levelPointsToWin: 1, //14
+        levelPointsToWin: 14, //14
       },
       {
         modifications: ['berryType', 'isBorderDanger'],
-        levelPointsToWin: 1, //100
+        levelPointsToWin: 100, //100
         startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX / 2) * this.sizeCell },
       },
     ];

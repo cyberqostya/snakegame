@@ -153,6 +153,7 @@ function updateAll() {
         berry.reset();
         if(score.level === 10) {
           popup.win( getNameAndCode(watcher.player.name) );
+          return;
         } else {
           popup.newLevel(score.level);
         }
