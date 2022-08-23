@@ -1,3 +1,4 @@
+window.googleDocCallback = function () { return true; };
 // localstorage
 // googleSheets
 export default class Watcher {
@@ -5,6 +6,8 @@ export default class Watcher {
   
     this.storage = localStorage;
     this.player;
+
+    this.dburl = 'https://script.google.com/macros/s/AKfycbzCjBiwblbXFC9RLP3Rl1_pJP3qqmPXY50cugMjwF6115FjYdl3syIhZzz3-1BVTCH7/exec?callback=googleDocCallback&';
 
     this._setInitialData(player);
   }
@@ -29,7 +32,7 @@ export default class Watcher {
 
   saveData() {
     this.storage.setItem('player', JSON.stringify(this.player));
-    // отправка в таблицы
+    this._setToDB();
   }
 
   setDate(date) {
@@ -48,5 +51,9 @@ export default class Watcher {
   incDeaths() {
     this.player.deaths++;
     this.saveData();
+  }
+
+  _setToDB() {
+    fetch( `${this.dburl}name=${this.player.name}` )
   }
 }
