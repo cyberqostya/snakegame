@@ -133,7 +133,7 @@ body {
 	border-radius: 16px;
 	background-color: #98EE0C;
 	padding: 32px 24px;
-
+	box-sizing: border-box;
 }
 
 .menu-popup__text {
@@ -149,7 +149,7 @@ body {
 
 .menu-popup__button {
 	max-width: 100px;
-	display: block;
+	display: none;
 	margin: 48px auto 0;
 	transition: .5s 1s;
 	opacity: 0;
@@ -158,4 +158,56 @@ body {
 .menu-popup__button._active {
 	opacity: 1;
 	pointer-events: all;
+}
+
+.menu-popup__form {
+	display: flex;
+	justify-content: center;
+	font-size: 16px;
+	font-weight: bold;
+	color: #0c6d45;
+}
+
+.menu-popup__form input {
+	border: 3px solid #0c6d45;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	padding: 10px;
+	border-right: none;
+	font-size: inherit;
+	font-weight: inherit;
+	color: inherit;
+	width: 100%;
+	outline: none;
+}
+
+.menu-popup__form button {
+	background-color: #98EE0C;
+	border: 3px solid #0c6d45;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	font-size: inherit;
+	font-weight: inherit;
+	color: inherit;
+	padding: 0 10px;
+}
+
+.menu-popup__name {
+	position: relative;
+	font-size: 40px;
+}
+.menu-popup__name-code {
+	position: absolute;
+	background-color: #dd4a6899;
+  font-size: 9px;
+  padding: 4px 5px;
+  border-radius: 4px;
+  color: #000;
+  top: -1em;
+	right: 0;
+	font-style: normal;
+}
+
+.menu-popup__text a {
+	color: #dd4a6899;
 }

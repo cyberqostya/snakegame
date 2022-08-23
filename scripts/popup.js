@@ -5,14 +5,15 @@ export default class Popup {
     this.button = this.element.querySelector('.menu-popup__button');
 
     this.changeSentences = [
-      'На новом уровне, что-то поменялось.',
-      'На новом уровне, опять что-то поменялось.',
-      'На новом уровне, снова что-то поменялось.',
-      'На новом уровне, опять что-то поменялось. Ты удивлен?',
-      'И сейчас что-то поменялось. А ты только привык к этому режиму...',
-      'На новом уровне, что-то поменялось или не поменялось или пошел я.',
-      'todo: Написать, что на уровне что-то поменялось, не используя "что-то", "поменялось" и "уровень"',
-      'Самсинк хэз чэнжд.',
+      'Получать готовое скучно. Добиваться знаний самому - вот истинное удовольствие.',
+      'Успех зависит от скорости адаптации к новым обстоятельствам.',
+      'Способность к адаптации — важная часть выживания. Если задача кажется непреодолимой, попробуй подойти к ней с другого угла.',
+      'Дело не в том, что жизнь становится проще или сложнее. Мы просто учимся справляться с ней.',
+      'Приспосабливаться к новому нужно поскорее, поскольку, не приспособившись вовремя, ты рискуешь не приспособиться вообще.',
+      'Пусть lvl равно четыре. Тогда икс равно ноль, а игрик равно пятнадцать. Вдруг поможет',
+      'Не позволяй прошлому занимать слишком много места в настоящем.',
+      'Преврати свои раны в мудрость.',
+      'Final BOSS!',
     ];
   }
 
@@ -22,9 +23,8 @@ export default class Popup {
 
   newLevel(level) {
     this.changeText(`
-      <p>Поздравляю, уровень&nbsp;${level} пройден!</p>
+      <p>Уровень&nbsp;${level} пройден!</p>
       <p>${this.changeSentences[level-1]}</p>
-      <p>Вперед!</p>
     `);
     this.show();
   }
@@ -40,7 +40,7 @@ export default class Popup {
     } else if(reason === 'berries') {
       reasonSentence = 'То, чем питалась твоя змея, размножилось и убило её. Вот такая вот эволюционная цепочка';
     } else if(reason === 'bee') {
-      reasonSentence = 'Ужалила...';
+      reasonSentence = 'Пчела рандома ужалила тебя. Теперь ты ходишь задом наперед!';
     }
 
     this.changeText(`
@@ -52,9 +52,9 @@ export default class Popup {
 
   enter1() {
     this.changeText(`
-      <p>Приветствую тебя на игре «Змейка за пятьсот»!</p>
+      <p>Приветствую тебя на игре «ЗMEЙ-K»!</p>
       <p>Введи имя, чтобы начать игру:</p>
-      <form>
+      <form class="menu-popup__form">
         <input type="text" name="name" required minlength="2" />
         <button>ОК</button>
       </form>
@@ -62,18 +62,31 @@ export default class Popup {
     `);
     this.show(false);
   }
-  enter2() {
+  enter2(nameCodeArray) {
+    const [name, code] = nameCodeArray;
     this.changeText(`
-      <p>Спасибо, \${name}.</p>
+      <p>Удачи,</p>
+      <p>
+        <span class="menu-popup__name">${name}
+          <span class="menu-popup__name-code">${code}</span>
+        </span>
+      </p>
       <p>Желаю приятной игры!</p>
     `);
     this.show();
   }
 
 
-  start() {
+  start(nameCodeArray) {
+    const [name, code] = nameCodeArray;
     this.changeText(`
-      <p>Ну что, начнём игру, name?</p>
+      <p>О, привет,</p>
+      <p>
+        <span class="menu-popup__name">${name}
+          <span class="menu-popup__name-code">${code}</span>
+        </span>
+      </p>
+      <p>Начнём игру?</p>
     `);
     this.show();
   }
@@ -85,6 +98,32 @@ export default class Popup {
     `);
     this.show();
   }
+
+
+  win(nameCodeArray) {
+    const [name, code] = nameCodeArray;
+    this.changeText(`
+      <p>Поздравляю!</p>
+      <p>
+        <span class="menu-popup__name">${name}
+          <span class="menu-popup__name-code">${code}</span>
+        </span>
+      </p>
+      <p>Игра пройдена!</p>
+      <p>Сделай скриншот этого экрана и размести его в любой соцсети. Подпиши пост/историю, отметь меня (<a target="_blank" href="https://vk.com/cyberqostya">@cyberqostya</a>) и получи заслуженный приз!</p>
+    `);
+    this.show(false);
+  }
+
+
+  easterCoord() {
+    this.changeText(`
+      <p>Секрет найден!</p>
+      <p>Дополнительная жизнь твоя. Пользуйся ей с осторожностью.</p>
+    `);
+    this.show();
+  }
+
 
   show(withBtn = true) {
     this.element.style.pointerEvents = 'all';

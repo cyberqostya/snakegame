@@ -1,4 +1,3 @@
-window.googleDocCallback = function () { return true; };
 // localstorage
 // googleSheets
 export default class Watcher {
@@ -7,7 +6,12 @@ export default class Watcher {
     this.storage = localStorage;
     this.player;
 
-    this.dburl = 'https://script.google.com/macros/s/AKfycbzCjBiwblbXFC9RLP3Rl1_pJP3qqmPXY50cugMjwF6115FjYdl3syIhZzz3-1BVTCH7/exec?callback=googleDocCallback&';
+    this.dburl = 'https://script.google.com/macros/s/AKfycbzCjBiwblbXFC9RLP3Rl1_pJP3qqmPXY50cugMjwF6115FjYdl3syIhZzz3-1BVTCH7/exec?';
+    this.fetchMods = {
+      save: 'save',
+      incDeaths: 'incDeaths',
+      incTry: 'incTry',
+    }
 
     this._setInitialData(player);
   }
@@ -19,6 +23,9 @@ export default class Watcher {
         startDate: player.startDate,
         try: player.try,
         deaths: player.deaths,
+        deathLvl: player.deathLvl,
+        easterCoord: false,
+        easterKonami: false,
       }
     } else {
       this.player = {
@@ -26,13 +33,22 @@ export default class Watcher {
         startDate: '',
         try: 0,
         deaths: 0,
+        deathLvl: 1,
+        easterCoord: false,
+        easterKonami: false,
       }
     }
   }
 
-  saveData() {
+  saveData(mode = this.fetchMods.save) {
     this.storage.setItem('player', JSON.stringify(this.player));
-    this._setToDB();
+
+    switch (mode) {
+      case this.fetchMods.save: this._setToDB(); break;
+      case this.fetchMods.incTry: this._setTryToDB(); break;
+      case this.fetchMods.incDeaths: this._setDeathsToDB(); break;
+    }
+    
   }
 
   setDate(date) {
@@ -45,15 +61,27 @@ export default class Watcher {
 
   incTry() {
     this.player.try++;
-    this.saveData();
+    this.saveData( this.fetchMods.incTry );
   }
 
-  incDeaths() {
+  incDeaths(deathLvl) {
     this.player.deaths++;
-    this.saveData();
+    this.player.deathLvl = deathLvl;
+    this.saveData( this.fetchMods.incDeaths );
   }
 
   _setToDB() {
-    fetch( `${this.dburl}name=${this.player.name}` )
+    fetch(`${this.dburl}name=${this.player.name}&date=${this.player.startDate}&tries=${this.player.try}&deaths=${this.player.deaths}`)
+      .catch(e => console.log(e));
+  }
+
+  _setDeathsToDB() {
+    fetch(`${this.dburl}name=${this.player.name}&deaths=${this.player.deaths}&deathLvl=${this.player.deathLvl}`)
+      .catch(e => console.log(e));
+  }
+
+  _setTryToDB() {
+    fetch(`${this.dburl}name=${this.player.name}&tries=${this.player.try}`)
+      .catch(e => console.log(e));
   }
 }

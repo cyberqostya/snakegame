@@ -1,10 +1,19 @@
 export default class Easter {
-  constructor() {
+  constructor(config) {
+    this.config = config;
 
+    this.coordEgg = {
+      x: -1 * this.config.sizeCell,
+      y: 14 * this.config.sizeCell,
+    }
   }
 
-  // Ограничить в localStorage + вывести предупреждающее сообщение 10р
+  // Отслеживание использований
   firstEgg() {
     const code = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right'];
+  }
+
+  coordEgg() {
+    
   }
 }

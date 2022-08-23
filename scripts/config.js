@@ -12,43 +12,45 @@ export default class Config {
 
     this.levels = [
       {
-        modifications: ['isRandomSnakeSpeed' ,'isBorderDanger'],
-        levelPointsToWin: 23,
+        modifications: ['isRandomSnakeSpeed'],
+        levelPointsToWin: 1, //24
+        speed: 5,
       },
       {
         modifications: ['isBerryChangedObstacle'],
-        levelPointsToWin: 16,
+        levelPointsToWin: 1, //20
       },
       {
         modifications: ['isBorderDanger'],
-        levelPointsToWin: 20,
+        levelPointsToWin: 1, //25
         startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX / 2) * this.sizeCell },
       },
       {
         modifications: ['isBorderDanger', 'isArrowsInvert'],
-        levelPointsToWin: 5,
+        levelPointsToWin: 1, //7
         startSnakePosition: { x: this.sizeCell, y: Math.floor(this.cellsX / 2) * this.sizeCell },
       },
       {
         modifications: ['doubleLength', 'isBorderDanger'],
-        levelPointsToWin: 7,
+        levelPointsToWin: 1,//7
         startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX - 2) * this.sizeCell },
       },
       {
         modifications: ['plusBorder'],
-        levelPointsToWin: 10,
+        levelPointsToWin: 1, //12
       },
       {
         modifications: ['berryTimer', 'isBorderDanger'],
-        levelPointsToWin: 20,
+        levelPointsToWin: 1, //20
+        speed: 6,
       },
       {
         modifications: ['isBeeAround'],
-        levelPointsToWin: 15,
+        levelPointsToWin: 1, //14
       },
       {
         modifications: ['berryType', 'isBorderDanger'],
-        levelPointsToWin: 100,
+        levelPointsToWin: 1, //100
         startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX / 2) * this.sizeCell },
       },
     ];

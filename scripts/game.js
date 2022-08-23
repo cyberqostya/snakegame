@@ -6,9 +6,10 @@ import Berry from "./berry.js";
 import Popup from "./popup.js";
 import Config from "./config.js";
 import Obstacles from "./obstacles.js";
-import { findUniquesCoordObjectsFromArrays, getReadableDate, getUniqueKey } from './supportFunctions.js';
+import { findUniquesCoordObjectsFromArrays, getNameAndCode, getReadableDate, getUniqueKey } from './supportFunctions.js';
 import Bee from "./bee.js";
 import Watcher from "./watcher.js";
+import Easter from "./easter.js";
 
 const config = new Config();
 const canvas = new Canvas(config);
@@ -20,6 +21,7 @@ const score = new Score(config);
 const obstacles = new Obstacles(canvas, config);
 const bee = new Bee(canvas, config);
 const watcher = new Watcher( JSON.parse(localStorage.getItem('player')) );
+const easter = new Easter( config );
 
 
 // Объявление необходимых для работы игры переменных
@@ -37,6 +39,17 @@ function updateAll() {
 
   snake.x += snake.dx;
   snake.y += snake.dy;
+
+
+  // Easter
+  if(snake.x === easter.coordEgg.x && snake.y === easter.coordEgg.y) {
+    score.incLife();
+    popup.easterCoord();
+    gameLoop.stop();
+    snake.reset(); 
+    berry.reset();
+    return;
+  }
 
 
   // Модификация уровня
@@ -138,7 +151,11 @@ function updateAll() {
       if(score.score === 0) {
         gameLoop.stop();
         berry.reset();
-        popup.newLevel(score.level);
+        if(score.level === 10) {
+          popup.win( getNameAndCode(watcher.player.name) );
+        } else {
+          popup.newLevel(score.level);
+        }
         score.incLevel();
 
 
@@ -154,6 +171,14 @@ function updateAll() {
         // Пчела
         if(config.levelModification.includes('isBeeAround')) {
           bee.reset();
+        }
+        // Конец модификации
+
+
+        // Модификация уровня
+        // Появление ягод по таймеру ИИ типы ягод
+        if(config.levelModification.includes('berryTimer') || config.levelModification.includes('berryType')) {
+          isTimerBerryAppear = true;
         }
         // Конец модификации
 
@@ -199,7 +224,7 @@ function updateAll() {
 
       // Модификация уровня
       // Появление ягод по таймеру ИИ Тип ягод
-      if(!config.levelModification.includes('berryTimer') || !config.levelModification.includes('berryType')) {
+      if(!config.levelModification.includes('berryTimer') && !config.levelModification.includes('berryType')) {
         addBerry();
       }
       // Конец модификации
@@ -320,7 +345,7 @@ function loseLife(reason) {
   score.decLife();
   snake.reset();
   berry.reset();
-  watcher.incDeaths();
+  watcher.incDeaths( score.level );
   if(score.lifes === 0) {
     return popup.gameover();
   }
@@ -331,14 +356,6 @@ function loseLife(reason) {
   // Появление препятствия вместо ягоды ИИ Граница в форме +
   if(config.levelModification.includes('isBerryChangedObstacle') || config.levelModification.includes('plusBorder')) {
     obstacles.reset();
-  }
-  // Конец модификации
-
-
-  // Модификация уровня
-  // Увеличение скорости змейки рандомно
-  if(config.levelModification.includes('isRandomSnakeSpeed')) {
-    config.setSpeed(6);
   }
   // Конец модификации
 
@@ -366,6 +383,7 @@ function checkHorizontalMoving() {
 function checkVerticalMoving() {
   return snake.dy === 0 && snake.tails[0].x !== snake.tails[1].x ? true : false;
 }
+
 
 
 // Начало работы
@@ -442,7 +460,7 @@ score.drawLifes();
 
 // Показали попап для начала игры
 if(watcher.storage.getItem('player')) {
-  popup.start();
+  popup.start( getNameAndCode(watcher.player.name) );
 } else {
   popup.enter1();
   document.querySelector('form').addEventListener('submit', (e) => {
@@ -451,7 +469,7 @@ if(watcher.storage.getItem('player')) {
       watcher.setName( e.currentTarget.elements.name.value + `-${getUniqueKey(e.currentTarget.elements.name.value)}` );
       watcher.saveData();
       popup.hide();
-      popup.enter2();
+      popup.enter2( getNameAndCode(watcher.player.name) );
   });
 }
 
