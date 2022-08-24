@@ -20,7 +20,7 @@ const popup = new Popup();
 const score = new Score(config);
 const obstacles = new Obstacles(canvas, config);
 const bee = new Bee(canvas, config);
-const watcher = new Watcher(  );
+// const watcher = new Watcher( JSON.parse(localStorage.getItem('player')) );
 const easter = new Easter( config );
 
 
@@ -152,7 +152,7 @@ function updateAll() {
         gameLoop.stop();
         berry.reset();
         if(score.level === 10) {
-          popup.win( getNameAndCode(watcher.player.name) );
+          // popup.win( getNameAndCode(watcher.player.name) );
           return;
         } else {
           popup.newLevel(score.level);
@@ -346,7 +346,7 @@ function loseLife(reason) {
   score.decLife();
   snake.reset();
   berry.reset();
-  watcher.incDeaths( score.level );
+  // watcher.incDeaths( score.level );
   if(score.lifes === 0) {
     return popup.gameover();
   }
@@ -399,7 +399,7 @@ popup.button.addEventListener('touchstart', () => {
     gameLoop.start();
     berry.addOnRandomPosition(canvas.cells);
 
-    if(score.level === 1) watcher.incTry();
+    // if(score.level === 1) watcher.incTry();
 
 
     // Модификация уровня
@@ -460,19 +460,19 @@ score.drawLifes();
 
 
 // Показали попап для начала игры
-if(watcher.storage.getItem('player')) {
-  popup.start( getNameAndCode(watcher.player.name) );
-} else {
+// if(watcher.storage.getItem('player')) {
+  // popup.start( getNameAndCode(watcher.player.name) );
+// } else {
   popup.enter1();
   document.querySelector('form').addEventListener('submit', (e) => {
       e.preventDefault();
-      watcher.setDate( getReadableDate() );
-      watcher.setName( e.currentTarget.elements.name.value + `-${getUniqueKey(e.currentTarget.elements.name.value)}` );
-      watcher.saveData();
+      // watcher.setDate( getReadableDate() );
+      // watcher.setName( e.currentTarget.elements.name.value + `-${getUniqueKey(e.currentTarget.elements.name.value)}` );
+      // watcher.saveData();
       popup.hide();
-      popup.enter2( getNameAndCode(watcher.player.name) );
+      // popup.enter2( getNameAndCode(watcher.player.name) );
   });
-}
+// }
 
 
 
