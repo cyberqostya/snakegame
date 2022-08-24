@@ -170,6 +170,7 @@ body {
 
 .menu-popup__form input {
 	border: 3px solid #0c6d45;
+	border-radius: 0;
 	border-top-left-radius: 10px;
 	border-bottom-left-radius: 10px;
 	padding: 10px;
@@ -179,6 +180,7 @@ body {
 	color: inherit;
 	width: 100%;
 	outline: none;
+	margin: 0;
 }
 
 .menu-popup__form button {
@@ -190,6 +192,7 @@ body {
 	font-weight: inherit;
 	color: inherit;
 	padding: 0 10px;
+	margin: 0;
 }
 
 .menu-popup__name {
