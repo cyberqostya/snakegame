@@ -13,7 +13,7 @@ export default class Easter {
     const code = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right'];
   }
 
-  coordEgg() {
+  // coordEgg() {
     
-  }
+  // }
 }
