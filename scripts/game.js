@@ -23,6 +23,8 @@ const bee = new Bee(canvas, config);
 const watcher = new Watcher(JSON.parse(localStorage.getItem('player')));
 const easter = new Easter(config);
 
+alert(1);
+
 
 // Объявление необходимых для работы игры переменных
 
@@ -389,6 +391,7 @@ function checkVerticalMoving() {
 
 // Начало работы
 
+alert(2);
 
 // Обработчик на кнопку формы - начало игры / конец игры
 popup.button.addEventListener('touchstart', () => {
