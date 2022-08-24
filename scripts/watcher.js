@@ -3,7 +3,7 @@
 export default class Watcher {
   constructor(player) {
   
-    this.storage = localStorage;
+    this.storage = document.cookie;
     this.player;
 
     this.dburl = 'https://script.google.com/macros/s/AKfycbzCjBiwblbXFC9RLP3Rl1_pJP3qqmPXY50cugMjwF6115FjYdl3syIhZzz3-1BVTCH7/exec?';
