@@ -20,8 +20,8 @@ const popup = new Popup();
 const score = new Score(config);
 const obstacles = new Obstacles(canvas, config);
 const bee = new Bee(canvas, config);
-const watcher = new Watcher( JSON.parse(localStorage.getItem('player')) );
-const easter = new Easter( config );
+const watcher = new Watcher(JSON.parse(localStorage.getItem('player')));
+const easter = new Easter(config);
 
 
 // Объявление необходимых для работы игры переменных
@@ -399,7 +399,7 @@ popup.button.addEventListener('touchstart', () => {
     gameLoop.start();
     berry.addOnRandomPosition(canvas.cells);
 
-    if(score.level === 1) watcher.incTry();
+    if(score.level === 1) watcher.incTry(); // Может умереть на 1 уровне и защитает как трай
 
 
     // Модификация уровня
