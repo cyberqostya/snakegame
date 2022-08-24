@@ -20,7 +20,7 @@ const popup = new Popup();
 const score = new Score(config);
 const obstacles = new Obstacles(canvas, config);
 const bee = new Bee(canvas, config);
-const watcher = new Watcher( JSON.parse(localStorage.getItem('player')) );
+const watcher = new Watcher(  );
 const easter = new Easter( config );
 
 
