@@ -26,12 +26,12 @@ function getUniqueKey(name) {
 
 function getReadableDate() {
   const time = new Date();
-  return `${time.getDate()}.${time.getMonth()+1}.${time.getFullYear()}-${time.getHours()}:${time.getMinutes()}`
+  return `${time.getDate()}.${time.getMonth()+1}.${time.getFullYear()}-${time.getHours()}:${time.getMinutes()}`;
 }
 
 
 function getNameAndCode(name) {
-  return [name.match(/.+(?=-)/g)[0], name.match(/(?<=-)(.+)/g)[0]]
+  return [name.match(/(.+)(-)/)[1], name.match(/(-)(.+)/)[2]];
 }
 
 
