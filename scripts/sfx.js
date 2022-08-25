@@ -1,6 +1,15 @@
 export default class Sfx {
+  constructor() {
+    this.sound = new Howl({
+      src: ['./sfx/arrowSound.mp3']
+    });
+  }
 
-  arrowPress() { new Audio('./sfx/arrowSound.mp3').play() }
+  arrowPress() { 
+    this.sound.play();
+  }
+
+
   snakeEat() { new Audio('./sfx/eat.mp3').play() }
   gameover() { new Audio('./sfx/gameover.mp3').play() }
   loselife() { new Audio('./sfx/ohmy.mp3').play() }
