@@ -6,14 +6,17 @@ export default class Easter {
       x: -1 * this.config.sizeCell,
       y: 14 * this.config.sizeCell,
     }
+
+    this.konamiCode = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right'];
+    this.konamiCounter = 0;
   }
 
-  // Отслеживание использований
-  firstEgg() {
-    const code = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right'];
+  checkKonami(direction) {
+    if(direction === this.konamiCode[this.konamiCounter]) {
+      this.konamiCounter++;
+      return this.konamiCounter === this.konamiCode.length;
+    } else {
+      this.konamiCounter = 0;
+    }
   }
-
-  // coordEgg() {
-    
-  // }
 }

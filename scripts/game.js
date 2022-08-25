@@ -10,6 +10,7 @@ import { findUniquesCoordObjectsFromArrays, getNameAndCode, getReadableDate, get
 import Bee from "./bee.js";
 import Watcher from "./watcher.js";
 import Easter from "./easter.js";
+import Sfx from "./sfx.js";
 
 const config = new Config();
 const canvas = new Canvas(config);
@@ -22,6 +23,7 @@ const obstacles = new Obstacles(canvas, config);
 const bee = new Bee(canvas, config);
 const watcher = new Watcher(JSON.parse(localStorage.getItem('player')));
 const easter = new Easter(config);
+const sfx = new Sfx();
 
 
 // Объявление необходимых для работы игры переменных
@@ -33,6 +35,7 @@ const loseLifeReasons = {
   berries: 'berries',
   bee: 'bee',
 }
+let berryTimerId;
 
 
 function updateAll() {
@@ -42,7 +45,9 @@ function updateAll() {
 
 
   // Easter
-  if(snake.x === easter.coordEgg.x && snake.y === easter.coordEgg.y) {
+  if(snake.x === easter.coordEgg.x && snake.y === easter.coordEgg.y && score.level === 4 && !watcher.player.isCoordEggReceived) {
+    sfx.easter();
+    watcher.getCoordEgg();
     score.incLife();
     popup.easterCoord();
     gameLoop.stop();
@@ -132,6 +137,7 @@ function updateAll() {
   for (let i = 0; i < berry.berries.length; i++) {
     if(head.x === berry.berries[i].x && head.y === berry.berries[i].y) {
       
+      sfx.snakeEat();
 
       // Модификация уровня
       // Тип ягод
@@ -149,10 +155,13 @@ function updateAll() {
       
       // Проверка прошел ли игрок уровень
       if(score.score === 0) {
+        sfx.lvlup();
         gameLoop.stop();
         berry.reset();
+        clearTimeout(berryTimerId);  // Когда ягоды появляются асинхронно
+        
         if(score.level === 10) {
-          popup.win( getNameAndCode(watcher.player.name) );
+          popup.win( getNameAndCode(watcher.player.name), watcher.player.deaths );
           return;
         } else {
           popup.newLevel(score.level);
@@ -203,7 +212,7 @@ function updateAll() {
       // Модификация уровня
       // Увеличение скорости змейки рандомно
       if(config.levelModification.includes('isRandomSnakeSpeed')) {
-        const speeds = [2, 5, 30];
+        const speeds = [2, 7, 30];
         const index = Math.round(Math.random() * 2);
         config.setSpeed( speeds[index] );
       }
@@ -331,9 +340,8 @@ function appearTimerBerry() {
   if(isTimerBerryAppear) {
     isTimerBerryAppear = false;
 
-    setTimeout(() => {
-      let arrayForBerry = findUniquesCoordObjectsFromArrays(canvas.cells, snake.tails.concat(berry.berries));
-      berry.addOnRandomPosition( arrayForBerry );
+    berryTimerId = setTimeout(() => {
+      addBerry();
       isTimerBerryAppear = true;
     }, 700);
   }
@@ -342,12 +350,16 @@ function appearTimerBerry() {
 
 
 function loseLife(reason) {
+  sfx.damage();
+  sfx.loselife();
   gameLoop.stop();
   score.decLife();
   snake.reset();
-  berry.reset();
+  berry.reset();  
+  clearTimeout(berryTimerId); // Когда ягоды появляются асинхронно
   watcher.incDeaths( score.level );
   if(score.lifes === 0) {
+    sfx.gameover();
     return popup.gameover();
   }
   popup.loseLife(reason);
@@ -378,10 +390,10 @@ function loseLife(reason) {
 }
 
 
-function checkHorizontalMoving() {
+function checkForHorizontalMoving() {
   return snake.dx === 0 && snake.tails[0].y !== snake.tails[1].y ? true : false;
 }
-function checkVerticalMoving() {
+function checkForVerticalMoving() {
   return snake.dy === 0 && snake.tails[0].x !== snake.tails[1].x ? true : false;
 }
 
@@ -397,7 +409,7 @@ popup.button.addEventListener('touchstart', () => {
   } else {
     popup.hide();
     gameLoop.start();
-    berry.addOnRandomPosition(canvas.cells);
+    addBerry();
 
     if(score.level === 1) watcher.incTry(); // Может умереть на 1 уровне и защитает как трай
 
@@ -416,41 +428,107 @@ popup.button.addEventListener('touchstart', () => {
 // Обработчик на кнопки управления змейкой
 document.querySelector('.mobile-controls').addEventListener("touchstart", (e) => {
 
-  // Модификация уровня
-  // Инвертированные стрелки
-  if(config.levelModification.includes('isArrowsInvert')) {
-    if (e.target.closest('.mobile-control._left') && checkHorizontalMoving()) {
-      snake.dx = config.sizeCell;
-      snake.dy = 0;
-    } else if (e.target.closest('.mobile-control._right') && checkHorizontalMoving()) {
-      snake.dx = -config.sizeCell;
-      snake.dy = 0;
-    } else if (e.target.closest('.mobile-control._up') && checkVerticalMoving()) {
-      snake.dy = config.sizeCell;
-      snake.dx = 0;
-    } else if (e.target.closest('.mobile-control._down') && checkVerticalMoving()) {
-      snake.dy = -config.sizeCell;
-      snake.dx = 0;
+  // Нажали на стрелку
+  if( e.target.closest('.mobile-control') ) {
+    sfx.arrowPress();
+
+    // Двигается ли змейка вертикально
+    if(checkForHorizontalMoving()) {
+
+      // Нажали на левую стрелку
+      if(e.target.closest('._left')) {
+          config.levelModification.includes('isArrowsInvert') ? // Модификация
+          snake.dx = config.sizeCell : // Модификация
+        snake.dx = -config.sizeCell;
+        snake.dy = 0;
+        // Нажали на правую стрелку
+      } else if(e.target.closest('._right')) {
+          config.levelModification.includes('isArrowsInvert') ? // Модификация
+          snake.dx = -config.sizeCell : // Модификация
+        snake.dx = config.sizeCell;
+        snake.dy = 0;
+      }
+
+    //  Двигается ли змейка горизонтально
+    } else if(checkForVerticalMoving()) {
+
+      // Нажали на стрелку вверх
+      if(e.target.closest('._up')) {
+          config.levelModification.includes('isArrowsInvert') ? // Модификация
+          snake.dy = config.sizeCell : // Модификация
+        snake.dy = -config.sizeCell;
+        snake.dx = 0;
+        // Нажали на стрелку вниз
+      } else if(e.target.closest('._down')) {
+          config.levelModification.includes('isArrowsInvert') ? // Модификация
+          snake.dy = -config.sizeCell : // Модификация
+        snake.dy = config.sizeCell;
+        snake.dx = 0;
+      }
+
     }
-    // Конец модификации
-  } else {
-    if (e.target.closest('.mobile-control._left') && checkHorizontalMoving()) {
-      snake.dx = -config.sizeCell;
-      snake.dy = 0;
-    } else if (e.target.closest('.mobile-control._right') && checkHorizontalMoving()) {
-      snake.dx = config.sizeCell;
-      snake.dy = 0;
-    } else if (e.target.closest('.mobile-control._up') && checkVerticalMoving()) {
-      snake.dy = -config.sizeCell;
-      snake.dx = 0;
-    } else if (e.target.closest('.mobile-control._down') && checkVerticalMoving()) {
-      snake.dy = config.sizeCell;
-      snake.dx = 0;
+
+    // Easter Konami
+    if (!watcher.player.isKonamiEggReceived && easter.checkKonami( e.target.closest('.mobile-control').classList[1].replace('_','') )) {
+      sfx.easter();
+      watcher.getKonamiEgg();
+      score.incLife();
+      popup.easterKonami();
+      gameLoop.stop();
+      snake.reset(); 
+      berry.reset();
+      return;
     }
   }
+
+  // Модификация уровня
+  // Инвертированные стрелки
+  // if(config.levelModification.includes('isArrowsInvert')) {
+  //   if (e.target.closest('.mobile-control._left') && checkForHorizontalMoving()) {
+  //     snake.dx = config.sizeCell;
+  //     snake.dy = 0;
+  //   } else if (e.target.closest('.mobile-control._right') && checkForHorizontalMoving()) {
+  //     snake.dx = -config.sizeCell;
+  //     snake.dy = 0;
+  //   } else if (e.target.closest('.mobile-control._up') && checkForVerticalMoving()) {
+  //     snake.dy = config.sizeCell;
+  //     snake.dx = 0;
+  //   } else if (e.target.closest('.mobile-control._down') && checkForVerticalMoving()) {
+  //     snake.dy = -config.sizeCell;
+  //     snake.dx = 0;
+  //   }
+  //   // Конец модификации
+  // } else {
+    // if (e.target.closest('.mobile-control._left') && checkForHorizontalMoving()) {
+    //   snake.dx = -config.sizeCell;
+    //   snake.dy = 0;
+    // } else if (e.target.closest('.mobile-control._right') && checkForHorizontalMoving()) {
+    //   snake.dx = config.sizeCell;
+    //   snake.dy = 0;
+    // } else if (e.target.closest('.mobile-control._up') && checkForVerticalMoving()) {
+    //   snake.dy = -config.sizeCell;
+    //   snake.dx = 0;
+    // } else if (e.target.closest('.mobile-control._down') && checkForVerticalMoving()) {
+    //   snake.dy = config.sizeCell;
+    //   snake.dx = 0;
+    // }
+
+    // Easter Konami
+    // if (e.target.closest('.mobile-control') && !watcher.player.isKonamiEggReceived) {
+    //   if( easter.checkKonami( e.target.closest('.mobile-control').classList[1].replace('_','') ) ) {
+    //     watcher.getKonamiEgg();
+    //     score.incLife();
+    //     popup.easterKonami();
+    //     gameLoop.stop();
+    //     snake.reset(); 
+    //     berry.reset();
+    //     return;
+    //   }
+    // }
+    
+  // }
   
 });
-
 
 
 // Отрисовали начальные данные
@@ -460,6 +538,9 @@ score.drawLifes();
 
 
 // Показали попап для начала игры
+if(window.matchMedia('(min-width: 769px)').matches) {
+  popup.notDesktop();
+} else
 if(watcher.storage.getItem('player')) {
   popup.start( getNameAndCode(watcher.player.name) );
 } else {
@@ -473,52 +554,3 @@ if(watcher.storage.getItem('player')) {
       popup.enter2( getNameAndCode(watcher.player.name) );
   });
 }
-
-
-
-
-
-
-
-// DELETE
-// DELETE
-// DELETE
-// DELETE
-
-document.addEventListener("keydown", async (e) => {
-
-  // Модификация уровня
-  // Инвертированные стрелки
-
-  if(config.levelModification.includes('isArrowsInvert')) {
-    if (e.key === 'ArrowLeft' && checkHorizontalMoving()) {
-      snake.dx = config.sizeCell;
-      snake.dy = 0;
-    } else if (e.key === 'ArrowRight' && checkHorizontalMoving()) {
-      snake.dx = -config.sizeCell;
-      snake.dy = 0;
-    } else if (e.key === 'ArrowUp' && checkVerticalMoving()) {
-      snake.dy = config.sizeCell;
-      snake.dx = 0;
-    } else if (e.key === 'ArrowDown' && checkVerticalMoving()) {
-      snake.dy = -config.sizeCell;
-      snake.dx = 0;
-    }
-    // Конец модификации
-  } else {
-    if (e.key === 'ArrowLeft' && checkHorizontalMoving()) {
-      snake.dx = -config.sizeCell;
-      snake.dy = 0;
-    } else if (e.key === 'ArrowRight' && checkHorizontalMoving()) {
-      snake.dx = config.sizeCell;
-      snake.dy = 0;
-    } else if (e.key === 'ArrowUp' && checkVerticalMoving()) {
-      snake.dy = -config.sizeCell;
-      snake.dx = 0;
-    } else if (e.key === 'ArrowDown' && checkVerticalMoving()) {
-      snake.dy = config.sizeCell;
-      snake.dx = 0;
-    }
-  }
-  
-});

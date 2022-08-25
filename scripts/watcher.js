@@ -11,6 +11,8 @@ export default class Watcher {
       save: 'save',
       incDeaths: 'incDeaths',
       incTry: 'incTry',
+      easterCoord: 'easterCoord',
+      easterKonami: 'easterKonami',
     }
 
     this._setInitialData(player);
@@ -24,8 +26,8 @@ export default class Watcher {
         try: player.try,
         deaths: player.deaths,
         deathLvl: player.deathLvl,
-        easterCoord: false,
-        easterKonami: false,
+        isCoordEggReceived: false,
+        isKonamiEggReceived: false,
       }
     } else {
       this.player = {
@@ -34,8 +36,8 @@ export default class Watcher {
         try: 0,
         deaths: 0,
         deathLvl: 1,
-        easterCoord: false,
-        easterKonami: false,
+        isCoordEggReceived: false,
+        isKonamiEggReceived: false,
       }
     }
   }
@@ -47,6 +49,8 @@ export default class Watcher {
       case this.fetchMods.save: this._setToDB(); break;
       case this.fetchMods.incTry: this._setTryToDB(); break;
       case this.fetchMods.incDeaths: this._setDeathsToDB(); break;
+      case this.fetchMods.easterCoord: this._setEasterCoordToDB(); break;
+      case this.fetchMods.easterKonami: this._setEasterKonamiToDB(); break;
     }
     
   }
@@ -70,18 +74,38 @@ export default class Watcher {
     this.saveData( this.fetchMods.incDeaths );
   }
 
+  getCoordEgg() {
+    this.player.isCoordEggReceived = true;
+    this.saveData( this.fetchMods.easterCoord );
+  }
+
+  getKonamiEgg() {
+    this.player.isKonamiEggReceived = true;
+    this.saveData( this.fetchMods.easterKonami );
+  }
+
   _setToDB() {
     fetch(`${this.dburl}name=${this.player.name}&date=${this.player.startDate}&tries=${this.player.try}&deaths=${this.player.deaths}`)
-      .catch(e => console.log(e));
+      .catch(e => console.log('Что-то с fetch'));
   }
 
   _setDeathsToDB() {
     fetch(`${this.dburl}name=${this.player.name}&deaths=${this.player.deaths}&deathLvl=${this.player.deathLvl}`)
-      .catch(e => console.log(e));
+      .catch(e => console.log('Что-то с fetch'));
   }
 
   _setTryToDB() {
     fetch(`${this.dburl}name=${this.player.name}&tries=${this.player.try}`)
-      .catch(e => console.log(e));
+      .catch(e => console.log('Что-то с fetch'));
+  }
+
+  _setEasterCoordToDB() {
+    fetch(`${this.dburl}name=${this.player.name}&eastercoord=true`)
+      .catch(e => console.log('Что-то с fetch'));
+  }
+
+  _setEasterKonamiToDB() {
+    fetch(`${this.dburl}name=${this.player.name}&easterkonami=true`)
+      .catch(e => console.log('Что-то с fetch'));
   }
 }

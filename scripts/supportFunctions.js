@@ -1,4 +1,5 @@
 function findUniquesCoordObjectsFromArrays(mainArr, exclusArr) {
+  if(exclusArr.length === 0) return mainArr;
   const result = [];
   for( let i=0; i < mainArr.length; i++ ) {
     for( let j=0; j < exclusArr.length; j++) {

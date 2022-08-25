@@ -1,12 +1,12 @@
 export default class Config {
   constructor() {
     this.step = 0;
-    this.maxStep = 8;
+    this.maxStep = 7;
     this.cellsX = 19;
     this.cellsY = 19;
     this.sizeCell = 16;
     this.sizeBerry = this.sizeCell / 4;
-    this.levelPointsToWin = 25;
+    this.levelPointsToWin = 25; // 25
     this.levelModification = [];
     this.startSnakePosition = { x: (this.cellsX - 6) * this.sizeCell, y: this.sizeCell * 2 };
 
@@ -27,12 +27,12 @@ export default class Config {
       },
       {
         modifications: ['isBorderDanger', 'isArrowsInvert'],
-        levelPointsToWin: 7, //7
+        levelPointsToWin: 10, //7
         startSnakePosition: { x: this.sizeCell, y: Math.floor(this.cellsX / 2) * this.sizeCell },
       },
       {
         modifications: ['doubleLength', 'isBorderDanger'],
-        levelPointsToWin: 7,//7
+        levelPointsToWin: 8,//7
         startSnakePosition: { x: this.sizeCell * 2, y: Math.floor(this.cellsX - 2) * this.sizeCell },
       },
       {
@@ -42,7 +42,8 @@ export default class Config {
       {
         modifications: ['berryTimer', 'isBorderDanger'],
         levelPointsToWin: 20, //20
-        speed: 6,
+        speed: 5,
+        startSnakePosition: { x: this.sizeCell, y: (this.cellsY - 1) * this.sizeCell },
       },
       {
         modifications: ['isBeeAround'],
@@ -61,7 +62,7 @@ export default class Config {
     this.levelModification = levelMods.modifications;
     this.levelPointsToWin = levelMods.levelPointsToWin;
     this.startSnakePosition = levelMods.startSnakePosition || { x: (this.cellsX - 6) * this.sizeCell, y: this.sizeCell * 2 };
-    this.maxStep = levelMods.speed || 8;
+    this.maxStep = levelMods.speed || 7;
   }
 
   setSpeed(speed) {

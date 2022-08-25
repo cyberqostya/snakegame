@@ -24,7 +24,7 @@ export default class Popup {
   newLevel(level) {
     this.changeText(`
       <p>Уровень&nbsp;${level} пройден!</p>
-      <p>${this.changeSentences[level-1]}</p>
+      <p style="font-style:italic; font-size:19px">${this.changeSentences[level-1]}</p>
     `);
     this.show();
   }
@@ -52,13 +52,13 @@ export default class Popup {
 
   enter1() {
     this.changeText(`
-      <p>Приветствую тебя на игре «ЗMEЙ-K»!</p>
+      <p>Приветствую тебя на игре «ЗMEЙ-K»</p>
       <p>Введи имя, чтобы начать игру:</p>
       <form class="menu-popup__form">
-        <input type="text" name="name" required minlength="2" />
+        <input type="text" name="name" required minlength="2" pattern="[^-]+" />
         <button>ОК</button>
       </form>
-      <p style="font-size:12px">*для получения приза важно, чтобы имя совпадало с реальным</p>
+      <p style="font-size:12px; font-style:italic">*для получения приза важно, чтобы имя совпадало с реальным</p>
     `);
     this.show(false);
   }
@@ -66,11 +66,7 @@ export default class Popup {
     const [name, code] = nameCodeArray;
     this.changeText(`
       <p>Удачи,</p>
-      <p>
-        <span class="menu-popup__name">${name}
-          <span class="menu-popup__name-code">${code}</span>
-        </span>
-      </p>
+      <p class="menu-popup__name">${name}</p></p>
       <p>Желаю приятной игры!</p>
     `);
     this.show();
@@ -81,11 +77,7 @@ export default class Popup {
     const [name, code] = nameCodeArray;
     this.changeText(`
       <p>О, привет,</p>
-      <p>
-        <span class="menu-popup__name">${name}
-          <span class="menu-popup__name-code">${code}</span>
-        </span>
-      </p>
+      <p class="menu-popup__name">${name}</p></p>
       <p>Начнём игру?</p>
     `);
     this.show();
@@ -100,7 +92,7 @@ export default class Popup {
   }
 
 
-  win(nameCodeArray) {
+  win(nameCodeArray, deaths) {
     const [name, code] = nameCodeArray;
     this.changeText(`
       <p>Поздравляю!</p>
@@ -109,8 +101,8 @@ export default class Popup {
           <span class="menu-popup__name-code">${code}</span>
         </span>
       </p>
-      <p>Игра пройдена!</p>
-      <p>Сделай скриншот этого экрана и размести его в любой соцсети. Подпиши пост/историю, отметь меня (<a target="_blank" href="https://vk.com/cyberqostya">@cyberqostya</a>) и получи заслуженный приз!</p>
+      <p>Ты прошел «ЗMEЙ-K» с&nbsp;${deaths + 1}&nbsp;попытки!</p>
+      <p style="font-size:10px; font-style:italic;">*Сделай скриншот этого экрана и размести его в любой соцсети. Не забудь поделиться впечатлениями, написав пару слов, отметь меня (<a target="_blank" href="https://vk.com/cyberqostya">@cyberqostya</a>) и получи заслуженный приз!</p>
     `);
     this.show(false);
   }
@@ -122,6 +114,25 @@ export default class Popup {
       <p>Дополнительная жизнь твоя. Пользуйся ей с осторожностью.</p>
     `);
     this.show();
+  }
+
+
+  easterKonami() {
+    this.changeText(`
+      <p>Секрет найден!</p>
+      <p>Дополнительная жизнь твоя. Откуда ты знаешь про этот код??</p>
+    `);
+    this.show();
+  }
+
+
+  notDesktop() {
+    this.changeText(`
+      <p>Это игра доступна только на мобильных устройствах.</p>
+      <p>Сканируй код и за дело!</p>
+      <img class="qrcode" src="./images/qr.svg" alt="qr">
+    `);
+    this.show(false);
   }
 
 
