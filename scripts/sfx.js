@@ -7,13 +7,16 @@ export default class Sfx {
     this.lvlupSound = new Howl({ src: ['./sfx/lvlup.mp3'] });
     this.damageSound = new Howl({ src: ['./sfx/damage.mp3'] });
     this.easterSound = new Howl({ src: ['./sfx/easter.mp3'] });
+    this.letmidieSound = new Howl({ src: ['./sfx/letmidie.mp3'] });
   }
 
   arrowPress() { this.arrowSound.play() }
   snakeEat() { this.snakeEatSound.play() }
   gameover() { this.gameoverSound.play() }
-  loselife() { this.loselifeSound.play() }
+  loselife() { 
+    this.damageSound.play();
+    Math.random() > 0.7 ? this.letmidieSound.play() : this.loselifeSound.play();
+  }
   lvlup() { this.lvlupSound.play() }
-  damage() { this.damageSound.play() }
   easter() { this.easterSound.play() }
 }

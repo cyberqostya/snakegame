@@ -350,8 +350,6 @@ function appearTimerBerry() {
 
 
 function loseLife(reason) {
-  sfx.damage();
-  sfx.loselife();
   gameLoop.stop();
   score.decLife();
   snake.reset();
@@ -362,6 +360,7 @@ function loseLife(reason) {
     sfx.gameover();
     return popup.gameover();
   }
+  sfx.loselife();
   popup.loseLife(reason);
 
 

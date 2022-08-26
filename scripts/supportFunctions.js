@@ -17,7 +17,7 @@ function findUniquesCoordObjectsFromArrays(mainArr, exclusArr) {
 function getUniqueKey(name) {
   const lett = 'aabcdefghijklmnopqrstuvwxyz';
 
-  const randMul = Math.floor(Math.random()*lett.length) + 1;
+  const randMul = Math.floor(Math.random()*(lett.length-1)) + 1;
   const randLett = lett[randMul];
   const lessLett = lett[Math.floor(Math.random()*lett.length)];
 

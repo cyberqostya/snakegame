@@ -6,7 +6,7 @@ export default class Config {
     this.cellsY = 19;
     this.sizeCell = 16;
     this.sizeBerry = this.sizeCell / 4;
-    this.levelPointsToWin = 25; // 25
+    this.levelPointsToWin = 20; // 20
     this.levelModification = [];
     this.startSnakePosition = { x: (this.cellsX - 6) * this.sizeCell, y: this.sizeCell * 2 };
 
