@@ -9,6 +9,8 @@ export default class Config {
     this.levelPointsToWin = 20; // 20
     this.levelModification = [];
     this.startSnakePosition = { x: (this.cellsX - 6) * this.sizeCell, y: this.sizeCell * 2 };
+    this.gameModes = { hard: 'hard', easy: 'easy' };
+    this.gameMode = this.gameModes.hard;
 
     this.levels = [
       {
@@ -67,5 +69,9 @@ export default class Config {
 
   setSpeed(speed) {
     this.maxStep = speed;
+  }
+
+  setGameMode(mode) {
+    this.gameMode = mode;
   }
 }

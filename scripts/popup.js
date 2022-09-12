@@ -76,9 +76,8 @@ export default class Popup {
   start(nameCodeArray) {
     const [name, code] = nameCodeArray;
     this.changeText(`
-      <p>О, привет,</p>
-      <p class="menu-popup__name">${name}</p></p>
-      <p>Начнём игру?</p>
+      <p>Полетели,</p>
+      <p class="menu-popup__name">${name}</p>
     `);
     this.show();
   }
@@ -86,23 +85,24 @@ export default class Popup {
 
   gameover() {// Цитата про безумие исходя из количества попыток
     this.changeText(`
-      Вот и всё, ребята!
+      Твоя змея погибла.
+      Но не отчаивайся, ведь можно попробовать еще раз!
     `);
     this.show();
   }
 
 
-  win(nameCodeArray, deaths) {
+  win(nameCodeArray, deaths, isEasyMode = false) {
     const [name, code] = nameCodeArray;
     this.changeText(`
       <p>Поздравляю!</p>
       <p>
         <span class="menu-popup__name">${name}
-          <span class="menu-popup__name-code">${code}</span>
+          ${!isEasyMode ? `<span class="menu-popup__name-code">${code}</span>` : ''}
         </span>
       </p>
       <p>Ты прошел «ЗMEЙ-K» с&nbsp;${deaths + 1}&nbsp;попытки!</p>
-      <p style="font-size:10px; font-style:italic;">*Сделай скриншот этого экрана и размести его в любой соцсети. Не забудь поделиться впечатлениями, написав пару слов, отметь меня (<a target="_blank" href="https://vk.com/cyberqostya">@cyberqostya</a>) и получи заслуженный приз!</p>
+      ${!isEasyMode ? `<p style="font-size:10px; font-style:italic;">*Сделай скриншот этого экрана и размести его в любой соцсети. Не забудь поделиться впечатлениями, написав пару слов, отметь меня (<a target="_blank" href="https://vk.com/cyberqostya">@cyberqostya</a>) и получи заслуженный приз!</p>` : ''}
     `);
     this.show(false);
   }
@@ -131,6 +131,23 @@ export default class Popup {
       <p>Это игра доступна только на мобильных устройствах.</p>
       <p>Сканируй код и за дело!</p>
       <img class="qrcode" src="./images/qr.svg" alt="qr">
+    `);
+    this.show(false);
+  }
+
+  chooseGameMode() {
+    this.changeText(`
+      <p>Выбери режим прохождения:</p>
+      <div class="game-modes">
+        <div class="game-mode _easy">
+          <h3>EASY</h3>
+          <p>*3 жизни на каждый уровень. При смерти ты просто начнешь уровень заново.</p>
+        </div>
+        <div class="game-mode _hard">
+          <h3>HARD</h3>
+          <p>*3 жизни на всю игру. При смерти ты вернешься на 1 уровень.</p>
+        </div>
+      </div>
     `);
     this.show(false);
   }

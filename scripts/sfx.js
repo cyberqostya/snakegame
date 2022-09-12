@@ -8,6 +8,8 @@ export default class Sfx {
     this.damageSound = new Howl({ src: ['./sfx/damage.mp3'] });
     this.easterSound = new Howl({ src: ['./sfx/easter.mp3'] });
     this.letmidieSound = new Howl({ src: ['./sfx/letmidie.mp3'] });
+    this.easymodeSound = new Howl({ src: ['./sfx/easymode.mp3'] });
+    this.hardmodeSound = new Howl({ src: ['./sfx/hardmode.mp3'] });
   }
 
   arrowPress() { this.arrowSound.play() }
@@ -19,4 +21,6 @@ export default class Sfx {
   }
   lvlup() { this.lvlupSound.play() }
   easter() { this.easterSound.play() }
+  easymode() { this.easymodeSound.play() }
+  hardmode() { this.hardmodeSound.play() }
 }

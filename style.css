@@ -251,3 +251,29 @@ body {
 	width: 90%;
 	max-width: 200px;
 }
+
+.game-modes {
+	display: flex;
+	column-gap: 15px;
+	margin-top: 10px;
+}
+.game-mode { 
+	border: 3px solid #0c6d45;	
+	border-radius: 5px;
+	padding: 5px;
+	width: calc((100% - 15px) / 2);
+	background-position: center top;
+	background-size: cover;
+	background-blend-mode: multiply;
+	color: #98EE0C;
+}
+.game-mode._hard {
+	background-color: #ff0000aa;
+	background-image: url(./images/hardmode.gif);
+}
+.game-mode._easy {
+	background-color: #777;
+	background-image: url(./images/easymode.gif);
+}
+.game-mode h3 { margin: 5px; }
+.game-mode p { font-size: 10px; padding-bottom: 10px; }

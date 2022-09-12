@@ -161,12 +161,19 @@ function updateAll() {
         clearTimeout(berryTimerId);  // Когда ягоды появляются асинхронно
         
         if(score.level === 10) {
-          popup.win( getNameAndCode(watcher.player.name), watcher.player.deaths );
+          popup.win( getNameAndCode(watcher.player.name), watcher.player.deaths, config.gameMode === config.gameModes.easy );
           return;
         } else {
           popup.newLevel(score.level);
         }
         score.incLevel();
+
+
+        // EASY mode
+        if(config.gameMode === config.gameModes.easy) { 
+          score.lifes = score.maxLifes;
+          score.drawLifes();
+        }
 
 
         // Модификация уровня
@@ -356,12 +363,6 @@ function loseLife(reason) {
   berry.reset();  
   clearTimeout(berryTimerId); // Когда ягоды появляются асинхронно
   watcher.incDeaths( score.level );
-  if(score.lifes === 0) {
-    sfx.gameover();
-    return popup.gameover();
-  }
-  sfx.loselife();
-  popup.loseLife(reason);
 
 
   // Модификация уровня
@@ -386,6 +387,14 @@ function loseLife(reason) {
     bee.reset();
   }
   // Конец модификации
+
+
+  if(score.lifes === 0) {
+    sfx.gameover();
+    return popup.gameover();
+  }
+  sfx.loselife();
+  popup.loseLife(reason);
 }
 
 
@@ -397,6 +406,23 @@ function checkForVerticalMoving() {
 }
 
 
+function startGameHandler() {
+  popup.hide();
+  gameLoop.start();
+  addBerry();
+
+  if(score.level === 1) watcher.incTry(); // Может умереть на 1 уровне и защитает как трай
+
+
+  // Модификация уровня
+  // Пчела
+  if(config.levelModification.includes('isBeeAround')) {
+    bee.getPath(berry.berries[0]);
+  }
+  // Конец модификации
+}
+
+
 
 // Начало работы
 
@@ -404,23 +430,20 @@ function checkForVerticalMoving() {
 // Обработчик на кнопку формы - начало игры / конец игры
 popup.button.addEventListener('touchstart', () => {
   if(score.lifes === 0) {
-    location.reload();
-  } else {
-    popup.hide();
-    gameLoop.start();
-    addBerry();
 
-    if(score.level === 1) watcher.incTry(); // Может умереть на 1 уровне и защитает как трай
-
-
-    // Модификация уровня
-    // Пчела
-    if(config.levelModification.includes('isBeeAround')) {
-      bee.getPath(berry.berries[0]);
+    // EASY mode
+    if(config.gameMode === config.gameModes.easy) {
+      score.lifes = score.maxLifes;
+      score.drawLifes();
+      startGameHandler();
+    } else {
+      location.reload();
     }
-    // Конец модификации
 
+  } else {
+    startGameHandler();
   }
+
 });
 
 
@@ -479,53 +502,6 @@ document.querySelector('.mobile-controls').addEventListener("touchstart", (e) =>
       return;
     }
   }
-
-  // Модификация уровня
-  // Инвертированные стрелки
-  // if(config.levelModification.includes('isArrowsInvert')) {
-  //   if (e.target.closest('.mobile-control._left') && checkForHorizontalMoving()) {
-  //     snake.dx = config.sizeCell;
-  //     snake.dy = 0;
-  //   } else if (e.target.closest('.mobile-control._right') && checkForHorizontalMoving()) {
-  //     snake.dx = -config.sizeCell;
-  //     snake.dy = 0;
-  //   } else if (e.target.closest('.mobile-control._up') && checkForVerticalMoving()) {
-  //     snake.dy = config.sizeCell;
-  //     snake.dx = 0;
-  //   } else if (e.target.closest('.mobile-control._down') && checkForVerticalMoving()) {
-  //     snake.dy = -config.sizeCell;
-  //     snake.dx = 0;
-  //   }
-  //   // Конец модификации
-  // } else {
-    // if (e.target.closest('.mobile-control._left') && checkForHorizontalMoving()) {
-    //   snake.dx = -config.sizeCell;
-    //   snake.dy = 0;
-    // } else if (e.target.closest('.mobile-control._right') && checkForHorizontalMoving()) {
-    //   snake.dx = config.sizeCell;
-    //   snake.dy = 0;
-    // } else if (e.target.closest('.mobile-control._up') && checkForVerticalMoving()) {
-    //   snake.dy = -config.sizeCell;
-    //   snake.dx = 0;
-    // } else if (e.target.closest('.mobile-control._down') && checkForVerticalMoving()) {
-    //   snake.dy = config.sizeCell;
-    //   snake.dx = 0;
-    // }
-
-    // Easter Konami
-    // if (e.target.closest('.mobile-control') && !watcher.player.isKonamiEggReceived) {
-    //   if( easter.checkKonami( e.target.closest('.mobile-control').classList[1].replace('_','') ) ) {
-    //     watcher.getKonamiEgg();
-    //     score.incLife();
-    //     popup.easterKonami();
-    //     gameLoop.stop();
-    //     snake.reset(); 
-    //     berry.reset();
-    //     return;
-    //   }
-    // }
-    
-  // }
   
 });
 
@@ -539,9 +515,24 @@ score.drawLifes();
 // Показали попап для начала игры
 if(window.matchMedia('(min-width: 769px)').matches) {
   popup.notDesktop();
-} else
-if(watcher.storage.getItem('player')) {
-  popup.start( getNameAndCode(watcher.player.name) );
+} else if(watcher.storage.getItem('player')) {
+
+  popup.chooseGameMode();
+  document.querySelector('.game-modes').addEventListener('touchstart', (e) => {
+    if(e.target.closest('.game-mode')) {
+      if( e.target.closest('._hard') ) {
+        config.setGameMode(config.gameModes.hard);
+        sfx.hardmode();
+      } else if( e.target.closest('._easy') ) {
+        config.setGameMode(config.gameModes.easy);
+        sfx.easymode();
+      }
+
+      popup.hide();
+      popup.start( getNameAndCode(watcher.player.name) );
+    }
+  });
+  
 } else {
   popup.enter1();
   document.querySelector('form').addEventListener('submit', (e) => {
@@ -550,6 +541,22 @@ if(watcher.storage.getItem('player')) {
       watcher.setName( e.currentTarget.elements.name.value + `-${getUniqueKey(e.currentTarget.elements.name.value)}` );
       watcher.saveData();
       popup.hide();
-      popup.enter2( getNameAndCode(watcher.player.name) );
+
+      popup.chooseGameMode();
+      document.querySelector('.game-modes').addEventListener('touchstart', (e) => {
+        if(e.target.closest('.game-mode')) {
+          if( e.target.closest('._hard') ) {
+            config.setGameMode(config.gameModes.hard);
+            sfx.hardmode();
+          } else if( e.target.closest('._easy') ) {
+            config.setGameMode(config.gameModes.easy);
+            sfx.easymode();
+          }
+
+          popup.hide();
+          popup.enter2( getNameAndCode(watcher.player.name) );
+        }
+      });
+
   });
 }
